@@ -1,0 +1,9 @@
+bin
+lib
+include
+__pycache__
+*.pyc
+staticfiles
+.env
+.sass-cache
+share
