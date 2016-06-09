@@ -1,3 +1,7 @@
 from django.contrib import admin
+from notices import models
 
-# Register your models here.
+class NoticeAdmin(admin.ModelAdmin):
+    list_display = ('title',)
+
+admin.site.register(models.Notice, NoticeAdmin)
