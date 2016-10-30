@@ -10,3 +10,4 @@ share
 node_modules/
 .DS_Store
 .sass-cache
+todo.txt
