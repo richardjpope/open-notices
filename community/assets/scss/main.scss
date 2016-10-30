@@ -2,6 +2,10 @@
 @import 'foundation';
 @include foundation-everything;
 
+[hidden] {
+  display: none;
+}
+
 .top-bar {
   color:$white;
   a {

@@ -1,6 +1,6 @@
 
 
-
+* Setup Travis
 * Use Open Layers 3
 * Setup settings.py for dev vs heroku use (https://docs.djangoproject.com/en/1.10/topics/settings/)
 * Show a map of recent alerts on homepage somehow
@@ -14,8 +14,10 @@
 * OpenLayers via assets directory, not cdn
 * rename 'main' to 'core'
 * add the concept of validated users
+* screen-reader alternative for map to create alerts 
 
 DONE:
+
 
 * Create an email alert
 * User accounts

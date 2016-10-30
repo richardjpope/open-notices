@@ -8,3 +8,4 @@ staticfiles
 .sass-cache
 share
 node_modules/
+.DS_Store

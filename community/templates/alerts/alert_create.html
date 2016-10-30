@@ -11,10 +11,11 @@
 {% block content %}
   <div class="row column small-12">
     <h1>New alert</h1>
+    <p>Draw the area you would like alerts for on the map</p>
     <form action="" method="post">
       {% csrf_token %}
-      {{form.as_p}}
-      <button type="submit" class="button">Create</button>
+      {{form.location}}
+      <button type="submit" class="button expanded">Create</button>
     </form>
   </div>
 {% endblock %}

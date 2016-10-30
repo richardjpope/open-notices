@@ -1,0 +1,14 @@
+language: python
+python:
+- '2.7'
+install: pip install -r requirements.txt
+script: python manage.py test main alerts notices
+services:
+- mongodb
+deploy:
+  provider: heroku
+  api_key:
+    secure: LsTdohMNmi+cuLQRRGGUOatiJBapRwoWAIEqhRdyepP0fgjQGmI9pCMmsfHh+S6xjko7zTCVO6j1FvWpmgUcpF3RBQY5Wm7tb//nLvbVO6DeyprW0iSZ7YuJ2Kv9G+3O2ffczpkX54lC3h4qF+5uwkGByUFQmY0N3YJzzLaRQiSAjWlGvbCMFdmVz0UWBjptpHxSTyal9dzFEmnkKBadk2N+iEqVcSquq2QMbhUz5K72XKv89pMFaiCL9fxowxJnjRf5iTTniI0JUkxe2lKurCl4XGuO3yEA7MTnwlwHzv1WZ6RoPuB8aGfFOqb05XLhS6fyk4WUPEDItSPUNdbRxWhjucVFmTQr/+XE7J2WHXqP5jquaeIJ0oPTJZO9ino+kvPCoQM6qt7GN1mP6KHT5n6T2acQ2BQx3aiohwMuHW4trNjkHcdXbxfKoFN+1vAhqR/FP5TTuRfNpRDanxmURuGXIrZFMd+V10INNk62QkGQtPUgwICRagfssALqc4Lwk0lIvTZhOu7DNxjQpXUnCs2rx+3O2Nu94NMcX5lyTreHQqAPJ7hYbbNUWJfCk4Kc9WY8cVgSIPjpRfrDcWCCXGlOW5N9xF2CkjJ+nGQb/R7a9tltjEwtBs0kw/xED62JkpYViXjZELsoCxkoXiY0eFfDSbpUp+7IV1tJy7jn7LE=
+  app: open-notices
+  on:
+    repo: memespring/open-notices

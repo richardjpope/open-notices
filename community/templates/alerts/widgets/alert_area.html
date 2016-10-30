@@ -1,45 +1,53 @@
-{% load i18n l10n static %}
-<style type="text/css">{% block map_css %}{% get_current_language_bidi as LANGUAGE_BIDI %}
-    #{{ id }}_map { width: {{ map_width }}px; height: {{ map_height }}px; }
-    #{{ id }}_map .aligned label { float: inherit; }
-    #{{ id }}_div_map { position: relative; vertical-align: top; float: {{ LANGUAGE_BIDI|yesno:"right,left" }}; }
-    {% if not display_raw %}#{{ id }} { display: none; }{% endif %}
-    .olControlEditingToolbar .olControlModifyFeatureItemActive {
-        background-image: url("{% static "admin/img/gis/move_vertex_on.svg" %});
-        background-repeat: no-repeat;
-    }
-    .olControlEditingToolbar .olControlModifyFeatureItemInactive {
-        background-image: url("{% static "admin/img/gis/move_vertex_off.svg" %});
-        background-repeat: no-repeat;
-    }{% endblock %}
-</style>
+<label id="{{id}}-label">{{id}}</label>
+<textarea id="{{ id }}" class="vSerializedField required" cols="150" rows="10" name="{{ name }}">{{ serialized }}</textarea>
+<div id="map" class="map"></div>
+ <script>
 
-<div id="{{ id }}_div_map">
-    <div id="{{ id }}_map"></div>
-    <span class="clear_features"><a href="javascript:{{ module }}.clearFeatures()">{% trans "Delete all Features" %}</a></span>
-    {% if display_raw %}<p>{% trans "Debugging window (serialized value)" %}</p>{% endif %}
-    <textarea id="{{ id }}" class="vSerializedField required" cols="150" rows="10" name="{{ name }}">{{ serialized }}</textarea>
-    <script type="text/javascript">
-        {% block map_options %}var map_options = {
-          maxExtend: new OpenLayers.Bounds(-20037508,-20037508,20037508,20037508),
-          maxResolution: 156543.0339,
-          numZoomLevels: 21,
-          units: 'm'
-      };{% endblock %}
-        {% block options %}var options = {
-            geom_name: '{{ geom_type }}',
-            id: '{{ id }}',
-            map_id: '{{ id }}_map',
-            map_options: map_options,
-            map_srid: {{ map_srid|unlocalize }},
-            name: '{{ name }}'
-        };
-        options['scale_text'] = true;
-        options['mouse_position'] = true;
-        options['default_lon'] = {{ default_lon|unlocalize }};
-        options['default_lat'] = {{ default_lat|unlocalize }};
-        options['base_layer'] = new OpenLayers.Layer.OSM.Mapnik("OpenStreetMap (Mapnik)");
-        {% endblock %}
-        var {{ module }} = new MapWidget(options);
+    //Hide the text area
+    document.getElementById('{{ id }}').setAttribute("hidden", true);
+    document.getElementById('{{id}}-label').setAttribute("hidden", true);
+
+
+    //Layers
+    raster = new ol.layer.Tile({source: new ol.source.OSM()});
+    source = new ol.source.Vector({wrapX: false});
+    vector = new ol.layer.Vector({source: source});
+
+
+    //map
+    var map = new ol.Map({
+    layers: [raster, vector],
+    target: 'map',
+    view: new ol.View({
+      center: [-11000000, 4600000],
+      zoom: 15
+    })
+    });
+
+    //drawing
+    interaction = new ol.interaction.Draw({source: source, type: 'Polygon',freehand: true});
+    interaction.on('drawstart', function (event) {
+        source.clear();
+    });
+    map.addInteraction(interaction);
+
+    //geolocation
+    geolocation = new ol.Geolocation({  
+        // Get the current map projection
+        projection: map.getView().getProjection(), 
+        // Track the user position
+        tracking: true
+    });
+    geolocation.on('change', function(evt) {
+      map.getView().setCenter(geolocation.getPosition());
+    });
+
+    //store the geojson
+    source.on('addfeature', function(){
+        var writer = new ol.format.GeoJSON();
+        var features = source.getFeatures();
+        document.getElementById('{{ id }}').value = writer.writeGeometry(features[0].getGeometry());
+    });
+
+    
     </script>
-</div>

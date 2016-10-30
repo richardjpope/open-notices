@@ -8,11 +8,12 @@ class AlertAreaWidget(BaseGeometryWidget):
 
     class Media:
         js = (
-            'http://openlayers.org/api/2.13/OpenLayers.js',
-            'http://www.openstreetmap.org/openlayers/OpenStreetMap.js',
-            'gis/js/OLMapWidget.js',
+            'https://openlayers.org/en/v3.19.1/build/ol.js',
         )
 
+        css = {
+            'all': ('https://openlayers.org/en/v3.19.1/css/ol.css',)
+        }
 
     def __init__(self, attrs=None):
         super(AlertAreaWidget, self).__init__()
