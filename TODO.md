@@ -15,6 +15,7 @@
 * rename 'main' to 'core'
 * add the concept of validated users
 * screen-reader alternative for map to create alerts 
+* Move from memespring fork of django-foundation-formtags once new pypy package is released
 
 DONE:
 
