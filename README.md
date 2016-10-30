@@ -7,14 +7,19 @@ Postgis (needs to be running)
 RabitMQ (needs to be running)
 Grunt
 
-#Start SCSS compiler
+#Run tests
+python manage.py test notices alerts main --settings=community.settings.test
+
+#Run development version
+
+##Start SCSS compiler
 npm install
 $ grunt
 
-# Start the message queue
+##Start the message queue
 source bin/activate
 celery -A community worker -l info
 
-#Start the app
+##Start the app
 source bin/activate
-python manage.py runserver
+python manage.py runserver --settings=community.settings.development
