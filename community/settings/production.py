@@ -12,9 +12,9 @@ ALLOWED_HOSTS = []
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 EMAIL_FROM_ADDRESS = 'mail@localhost'
 
-# Database
-DATABASES = {
-    'default': dj_database_url.config()
-}
+# # Database
+# DATABASES = {
+#     'default': dj_database_url.config()
+# }
 
 # BROKER_URL = 'redis://localhost:6379/0'
