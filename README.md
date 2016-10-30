@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/memespring/open-notices.svg?branch=master)
+![Build Status](https://travis-ci.org/memespring/open-notices.svg?branch=master)
 
 You will need these things:
 
