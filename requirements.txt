@@ -4,7 +4,7 @@ billiard==3.3.0.23
 celery==3.1.24
 Django==1.9.5
 django-appconf==1.0.2
-git+https://github.com/memespring/django-foundation-formtags.git
+django-foundation-formtags==0.0.7
 geojson==1.3.3
 gunicorn==19.4.5
 kombu==3.0.37
@@ -13,3 +13,4 @@ pytz==2016.7
 rcssmin==1.0.6
 rjsmin==1.0.12
 six==1.10.0
+whitenoise==3.2.2
