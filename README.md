@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/memespring/open-notices.svg?branch=master)
+
 You will need these things:
 
 Python 3
