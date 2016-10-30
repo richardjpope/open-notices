@@ -7,3 +7,4 @@ staticfiles
 .env
 .sass-cache
 share
+node_modules/

@@ -2,7 +2,23 @@
 {% block title %}
   westnorwood.community
 {% endblock %}
-  
+
 {% block content %}
-  Hello
+  <div class="row column small-12">
+    <h1>Hello</h1>
+    <ul>
+      <li>
+        <a href="{% url 'notice-create' %}">Add a notice</a>
+      </li>
+      <li>
+        <a href="{% url 'notice-list' %}">All notices</a>
+      </li>
+      <li>
+        <a href="{% url 'alert-list' %}">Your alerts</a>
+      </li>
+      <li>
+        <a href="{% url 'alert-create' %}">Create an alert</a>
+      </li>
+    </ul>
+  </div>
 {% endblock %}

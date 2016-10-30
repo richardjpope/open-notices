@@ -13,7 +13,6 @@ https://docs.djangoproject.com/en/1.9/ref/settings/
 import os
 import sys
 
-
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 PROJECT_ROOT = os.path.join(os.path.abspath(os.path.dirname(__file__)))
@@ -38,8 +37,10 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.gis',
-    'home',
-    'notices',    
+    'foundation_formtags',
+    'main',
+    'notices',
+    'alerts',
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -120,3 +121,16 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.9/howto/static-files/
 STATICFILES_DIRS = (os.path.join(PROJECT_ROOT, 'static'),)
 STATIC_URL = '/static/'
+
+
+#custom
+LOGIN_URL = '/signin/'
+LOGIN_REDIRECT_URL = 'index'
+# BROKER_URL = 'redis://localhost:6379/0'
+CELERY_ACCEPT_CONTENT = ['json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_FROM_ADDRESS = 'mail@localhost'
+AUTH_USER_MODEL = 'main.User'

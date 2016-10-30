@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}
+  Notices
+{% endblock %}
+  
+{% block content %}
+  <div class="row column small-12">
+    <h1>Notices</h1>
+    <ul>
+    {% for notice in object_list %}
+        <li><a href="{% url 'notice-detail' notice.id %}">{{notice.title}}</a></li>
+    {% empty %}
+        <li>Sorry, there are no notices</li>
+    {% endfor %}
+    </ul>
+  </div>
+{% endblock %}

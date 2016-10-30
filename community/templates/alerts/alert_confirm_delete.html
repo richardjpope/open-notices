@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block head %}
+  {{ form.media }}
+{% endblock %}
+
+{% block title %}
+  Delete alert
+{% endblock %}
+
+{% block content %}
+  <div class="row column small-12">
+    <h1>Delete alert</h1>
+    <p>Are you sure you want to cancel this alert?</p>
+    <form action="" method="post">
+      {% csrf_token %}
+      <button type="submit" class="button"  value="yes">Yes</button>
+      <button type="submit" class="button secondary" value="no">No</button>
+    </form>
+  </div>
+{% endblock %}

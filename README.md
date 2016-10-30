@@ -1,22 +1,18 @@
-westnorwood.community is a community cooperative. Members pay an annual charge to be able to do stuff.
+You will need these things:
 
-westnorwood.community
-foodclub.westnorwood.community
-notices.westnorwood.community
-  - planning
-  - licensing
-  - parking
-  - consultation
-  - lost cats
-tasks.westnorwood.community
-travel.westnorwood.community
-assets.westnorwood.community
-offers.westnorwood.community
-wanted.westnorwood.community
-report.westnorwood.community
-radar.westnorwood.community (alerts)
+Python 3
+Postgis (needs to be running)
+RabitMQ (needs to be running)
+Grunt
 
+#Start SCSS compiler
+npm install
+$ grunt
 
+# Start the message queue
+source bin/activate
+celery -A community worker -l info
 
-#SCSS
-$ compass watch
+#Start the app
+source bin/activate
+python manage.py runserver

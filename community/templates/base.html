@@ -7,10 +7,51 @@
     {% endblock %}
   </title>
   {% load staticfiles %}
+  {% block head %}
+  {% endblock %}
+  <link href="https://fonts.googleapis.com/css?family=Arvo" rel="stylesheet">
   <link rel="stylesheet" type="text/css" href="{% static "css/main.css" %}">
 </head>
 <body>
+
+<header class="top-bar">
+  <nav>
+    <div class="top-bar-left">
+      <ul class="menu">
+        <li class="menu-text">
+          <a href="{% url 'index' %}">Open Notices</a>
+        </li>
+      </ul>
+    </div>
+
+    <div class="top-bar-right">
+      <ul class="menu">
+        {% if user.is_authenticated %}
+          <li>
+            Signed in as {{user.username}}
+          </li>
+          <li>
+            <a href="{% url 'logout' %}">Sign out</a>
+          </li>
+        {% else %}
+          <li>
+            <a href="{% url 'login' %}">Sign in</a>
+          </li>
+        {% endif %}
+      </ul>
+    </div>
+  </nav>
+</header>
+<main>
   {% block content %}
   {% endblock %}
+</main>
+<footer>
+  <div class="row column small-12">
+    <p>
+      This is an alpha. Things may break.
+    </p>
+  </div>
+</footer>
 </body>
 </html>
