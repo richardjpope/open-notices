@@ -1,5 +1,8 @@
 <label id="{{id}}-label">{{id}}</label>
 <textarea id="{{ id }}" class="vSerializedField required" cols="150" rows="10" name="{{ name }}">{{ serialized }}</textarea>
+
+
+<div id="map-controls"></div>
 <div id="map" class="map"></div>
  <script>
 
@@ -7,12 +10,10 @@
     document.getElementById('{{ id }}').setAttribute("hidden", true);
     document.getElementById('{{id}}-label').setAttribute("hidden", true);
 
-
     //Layers
     raster = new ol.layer.Tile({source: new ol.source.OSM()});
     source = new ol.source.Vector({wrapX: false});
     vector = new ol.layer.Vector({source: source});
-
 
     //map
     var map = new ol.Map({
@@ -28,6 +29,7 @@
     interaction = new ol.interaction.Draw({source: source, type: 'Polygon',freehand: true});
     interaction.on('drawstart', function (event) {
         source.clear();
+        document.getElementById('clear_button').disabled = false;
     });
     map.addInteraction(interaction);
 
@@ -48,6 +50,19 @@
         var features = source.getFeatures();
         document.getElementById('{{ id }}').value = writer.writeGeometry(features[0].getGeometry());
     });
+
+    //add a clear button
+    clear_button = document.createElement('button');
+    clear_button.id = 'clear_button'
+    clear_button.className = 'button secondary';
+    clear_button.innerHTML = 'Clear selection';
+    clear_button.disabled = true;
+    clear_button.onclick = function(){
+        source.clear();
+        return false;
+    }
+
+    document.getElementById('map-controls').appendChild(clear_button)
 
     
     </script>

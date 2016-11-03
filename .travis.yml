@@ -10,3 +10,5 @@ deploy:
   app: open-notices
   on:
     repo: memespring/open-notices
+  run:
+    - "python manage.py migrate --noinput --settings=community.settings.production"

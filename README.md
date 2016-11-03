@@ -2,15 +2,19 @@
 
 You will need these things:
 
-Python 3
+Python
+virtualenv
 Postgis (needs to be running)
 RabitMQ (needs to be running)
 Grunt
 
-#Run tests
-python manage.py test notices alerts main --settings=community.settings.test
-
 #Run development version
+git clone https://github.com/memespring/open-notices.git
+virtualenv .
+
+##Run tests
+source bin/activate
+python manage.py test notices alerts main --settings=community.settings.test
 
 ##Start SCSS compiler
 npm install
