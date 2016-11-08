@@ -10,8 +10,10 @@ def validate_email_unique(value):
         raise ValidationError("This email already exists")
 
 class CreateAlert(forms.Form):
-    location = forms.PolygonField(widget=
-        AlertAreaWidget(attrs={'map_width': 800, 'map_height': 500}))
+    location = forms.PolygonField(
+        widget = AlertAreaWidget(attrs={'map_width': 800, 'map_height': 500}),
+        error_messages={'required': 'Please select an area by drawing on the map', 'invalid_geom': 'Invalid area selected'}
+        )
 
 class CreateUser(forms.Form):
     email = forms.EmailField(label='Email address',validators=[validate_email_unique])
