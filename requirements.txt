@@ -15,3 +15,5 @@ rcssmin==1.0.6
 rjsmin==1.0.12
 six==1.10.0
 whitenoise==3.2.2
+django-markdown-deux==1.0.5
+markdown2==2.3.1

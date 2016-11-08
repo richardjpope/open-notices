@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load markdown_deux_tags %}
 
 {% block title %}
   {{object.title}}
@@ -7,7 +8,7 @@
 {% block content %}
   <div class="row column small-12">
     <h1>{{object.title}}</h1>
-    <p>{{object.details}}</p>
+    <p>{{object.details|markdown}}</p>
     <p>{{object.location}}</p>
   </div>
 {% endblock %}

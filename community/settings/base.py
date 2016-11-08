@@ -16,6 +16,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.gis',
     'foundation_formtags',
+    'markdown_deux',
     'core',
     'notices',
     'alerts',
