@@ -8,7 +8,7 @@ urlpatterns = [
     url(r'^signin/$', auth_views.login, name='login'),
     url(r'^signout/$', auth_views.logout,  {'next_page': '/'}, name='logout'),
     url(r'^admin/', admin.site.urls),
-    url(r'^', include('main.urls')),
+    url(r'^', include('core.urls')),
     url(r'^notices/', include('notices.urls')),
     url(r'^alerts/', include('alerts.urls')),
 ]

@@ -16,7 +16,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.gis',
     'foundation_formtags',
-    'main',
+    'core',
     'notices',
     'alerts',
 ]
@@ -92,4 +92,4 @@ CELERY_ACCEPT_CONTENT = ['json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
 
-AUTH_USER_MODEL = 'main.User'
+AUTH_USER_MODEL = 'core.User'

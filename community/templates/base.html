@@ -47,7 +47,7 @@
   {% if messages %}
     <ul class="messages">
         {% for message in messages %}
-          <li{% if message.tags %} class="callout {{ message.tags }}"{% endif %}>{{ message }}</li>
+          <li{% if message.tags %} class="callout {{ message.tags|message_tag_to_callout }}"{% endif %}>{{ message }}</li>
         {% endfor %}
     </ul>
   {% endif %}

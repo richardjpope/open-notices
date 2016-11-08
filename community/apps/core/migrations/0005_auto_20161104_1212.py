@@ -3,20 +3,20 @@
 from __future__ import unicode_literals
 
 from django.db import migrations, models
-import main.managers
+import core.managers
 
 
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('main', '0004_auto_20161104_1205'),
+        ('core', '0004_auto_20161104_1205'),
     ]
 
     operations = [
         migrations.AlterModelManagers(
             name='user',
             managers=[
-                ('objects', main.managers.UserManager()),
+                ('objects', core.managers.UserManager()),
             ],
         ),
         migrations.AddField(

@@ -14,7 +14,7 @@ virtualenv .
 
 ##Run tests
 source bin/activate
-python manage.py test notices alerts main --settings=community.settings.test
+python manage.py test notices alerts core --settings=community.settings.test
 
 ##Start SCSS compiler
 npm install

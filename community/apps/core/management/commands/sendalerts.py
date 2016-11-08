@@ -1,6 +1,6 @@
 from django.core.management.base import BaseCommand, CommandError
 from alerts.models import Alert
-from main.tasks import send_alert
+from core.tasks import send_alert
 
 class Command(BaseCommand):
     help = 'Alert users'
