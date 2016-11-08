@@ -70,8 +70,8 @@
         layers: [raster, vector],
         target: 'map',
         view: new ol.View({
-          center: [-11000000, 4600000],
-          zoom: 15
+          center: [0, 4600000],
+          zoom: 2
         })
     });
 
@@ -91,6 +91,7 @@
     });
     geolocation.on('change', function(evt) {
       map.getView().setCenter(geolocation.getPosition());
+      map.getView().setZoom(15);
     });
 
     //store the geojson

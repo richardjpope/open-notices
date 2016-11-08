@@ -1,12 +1,15 @@
+import json
 from django.http import Http404
 from django.shortcuts import render, redirect
 from django.core.urlresolvers import reverse_lazy, reverse
+from django.core.serializers import serialize
 from django.contrib.auth.decorators import login_required
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import FormView, DeleteView
 from django.utils.decorators import method_decorator
 from alerts import models, forms
+from django.contrib.auth import get_user_model, login
 
 @method_decorator(login_required, name='dispatch')
 class AlertListView(ListView):
@@ -33,16 +36,59 @@ class AlertDeleteView(DeleteView):
         else:
             return super(AlertDeleteView, self).post(request, *args, **kwargs)
 
-@method_decorator(login_required, name='dispatch')
 class AlertCreateView(FormView):
     template_name = 'alerts/alert_create.html'
     form_class = forms.CreateAlert
 
+    def dispatch(self, request, *args, **kwargs):
+        if request.session.get('new-alert', False):
+            self.request.session.pop('new-alert')
+        return super(AlertCreateView, self).dispatch(request, *args, **kwargs)
+
     def form_valid(self, form):
-      
       alert = models.Alert()
       alert.location = form.cleaned_data['location']
-      alert.user = self.request.user
-      alert.save()
+      if self.request.user.is_authenticated:
+          alert.user = self.request.user
+          alert.save()
 
-      return redirect(reverse('alert-list'))
+          return redirect(reverse('alert-list'))
+      else:
+        print(type(form.cleaned_data['location']))
+        self.request.session['new-alert'] = serialize('geojson', [alert],
+          fields=('location',))
+
+        return redirect(reverse('create-alert-user'))
+
+class AlertCreateUserView(FormView):
+    template_name = 'alerts/create_user.html'
+    form_class = forms.CreateUser
+
+    def dispatch(self, request, *args, **kwargs):
+        if not request.session.get('new-alert', False):
+            return redirect(reverse('alert-create'))
+        else:
+            return super(AlertCreateUserView, self).dispatch(request, *args, **kwargs)
+
+    def form_valid(self, form):
+
+        #create user
+        UserModel = get_user_model()
+        user = UserModel(email=form.cleaned_data['email'], password=form.cleaned_data['password'])
+        user.save()
+
+        #sign new user in
+        login(self.request, user)
+
+        #get the location out of the session
+        location = json.loads(self.request.session['new-alert'])
+
+        #save alert
+        alert = models.Alert()
+        alert.location = json.dumps(location['features'][0]['geometry'])
+        alert.user = user
+        alert.save()
+
+        return redirect(reverse('alert-list'))
+
+

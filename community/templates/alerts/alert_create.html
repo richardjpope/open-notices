@@ -15,7 +15,11 @@
     <form action="" method="post">
       {% csrf_token %}
       {{form.location}}
-      <button type="submit" class="button expanded">Create</button>
+      {% if user.is_authenticated %}
+        <button type="submit" class="button expanded">Create alert</button>
+      {% else %}
+        <button type="submit" class="button expanded">Next</button>
+      {% endif %}
     </form>
   </div>
 {% endblock %}
