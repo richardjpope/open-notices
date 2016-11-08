@@ -83,8 +83,8 @@ USE_TZ = True
 STATICFILES_DIRS = (os.path.join(PROJECT_ROOT, 'static'),)
 STATIC_URL = '/static/'
 
-
 #custom
+MESSAGE_STORAGE = 'django.contrib.messages.storage.session.SessionStorage'
 LOGIN_URL = '/signin/'
 LOGIN_REDIRECT_URL = 'index'
 

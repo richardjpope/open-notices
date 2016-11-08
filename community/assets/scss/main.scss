@@ -33,3 +33,15 @@ footer {
   font-family: $header-font-family;
   font-weight:bold;
 }
+
+.messages {
+  padding-left:0;
+  margin-left:0;
+  text-align:center;
+  font-weight:bold;
+  li {
+    margin-left:0;
+    list-style-type: none;
+    margin-left: 0;
+  }
+}

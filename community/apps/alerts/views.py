@@ -3,13 +3,16 @@ from django.http import Http404
 from django.shortcuts import render, redirect
 from django.core.urlresolvers import reverse_lazy, reverse
 from django.core.serializers import serialize
+from django.contrib import messages
+from django.contrib.auth import get_user_model, login
 from django.contrib.auth.decorators import login_required
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import FormView, DeleteView
 from django.utils.decorators import method_decorator
 from alerts import models, forms
-from django.contrib.auth import get_user_model, login
+
+success_message = 'Your alert has been created'
 
 @method_decorator(login_required, name='dispatch')
 class AlertListView(ListView):
@@ -43,18 +46,22 @@ class AlertCreateView(FormView):
     def dispatch(self, request, *args, **kwargs):
         if request.session.get('new-alert', False):
             self.request.session.pop('new-alert')
-        return super(AlertCreateView, self).dispatch(request, *args, **kwargs)
+        return super(AlertCreateView, self).dispatch(self.request, *args, **kwargs)
 
     def form_valid(self, form):
       alert = models.Alert()
       alert.location = form.cleaned_data['location']
       if self.request.user.is_authenticated:
+          
+          #save alert
           alert.user = self.request.user
           alert.save()
 
+          #create a success message
+          messages.add_message(request, messages.SUCCESS, success_message)
+
           return redirect(reverse('alert-list'))
       else:
-        print(type(form.cleaned_data['location']))
         self.request.session['new-alert'] = serialize('geojson', [alert],
           fields=('location',))
 
@@ -88,6 +95,9 @@ class AlertCreateUserView(FormView):
         alert.location = json.dumps(location['features'][0]['geometry'])
         alert.user = user
         alert.save()
+
+        #create a success message
+        messages.add_message(self.request, messages.SUCCESS, success_message)
 
         return redirect(reverse('alert-list'))
 

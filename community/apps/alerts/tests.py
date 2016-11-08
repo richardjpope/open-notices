@@ -42,6 +42,10 @@ class AlertTestCase(TestCase):
         response = self.client.post('/alerts/new/account', data, follow=True)
         self.assertRedirects(response, '/alerts/')
 
+        response = self.client.get('/alerts')
+        self.assertContains(response, 'Your alert has been created')
+
+
     def test_create_authorised(self):
 
         self.client.login(email='existinguser@example.org', password='notasecret')
@@ -49,3 +53,6 @@ class AlertTestCase(TestCase):
         data =  {'location': geojson_area}
         response = self.client.post('/alerts/new', data, follow=True)
         self.assertRedirects(response, '/alerts/')
+
+        response = self.client.get('/alerts')
+        self.assertContains(response, 'Your alert has been created')
