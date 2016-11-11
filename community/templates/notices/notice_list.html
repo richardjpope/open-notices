@@ -1,17 +1,32 @@
 {% extends "base.html" %}
+{% load staticfiles %}
 {% block title %}
-  Notices
+  Open Notices
 {% endblock %}
-  
+{% block head %}
+  <script type="text/javascript" src="{% static 'javascript/index.js' %}"></script>
+{% endblock %}
 {% block content %}
-  <div class="row column small-12">
-    <h1>Notices</h1>
-    <ul>
-    {% for notice in object_list %}
-        <li><a href="{% url 'notice-detail' notice.id %}">{{notice.title}}</a></li>
-    {% empty %}
-        <li>Sorry, there are no notices</li>
-    {% endfor %}
-    </ul>
+  <div class="row collapse">
+    <div id="intro" class="column small-12 medium-3">
+      <h1>Welcome to Open Notices</h1>
+      <p>The open database of <span id="intro-text-examples">official notices</span></p>
+      <form action="{% url 'notice-list' %}" method="get">
+      
+        <label id="q_label" for="q">Search</label>
+        <div aria-labelledby="q_label">
+          <div class="input-group">
+            <input id="q" name="q" class="input-group-field">
+            <div class="input-group-button">
+              <input type="submit" class="button" value="Go">
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="column small-12 medium-9 collapse">
+      <div id="map" class="map"></div>
+
+    </div>
   </div>
 {% endblock %}

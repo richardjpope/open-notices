@@ -1,4 +1,5 @@
 {% load foundation_filters %}
+{% load staticfiles %}
 <!DOCTYPE html>
 <html>
 <head>
@@ -7,10 +8,13 @@
       
     {% endblock %}
   </title>
-  {% load staticfiles %}
+  <script language="javascript">var STATIC_URL = "{% static "" %}";</script>
+  <link href="https://fonts.googleapis.com/css?family=Arvo" rel="stylesheet">
+  <script   src="https://code.jquery.com/jquery-3.1.1.min.js"   integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="   crossorigin="anonymous"></script>
+  <script type="text/javascript" src="https://openlayers.org/en/v3.19.1/build/ol.js"></script>
+  <link rel="stylesheet" type="text/css" href="https://openlayers.org/en/v3.19.1/css/ol.css">
   {% block head %}
   {% endblock %}
-  <link href="https://fonts.googleapis.com/css?family=Arvo" rel="stylesheet">
   <link rel="stylesheet" type="text/css" href="{% static "css/main.css" %}">
 </head>
 <body>
@@ -20,7 +24,7 @@
     <div class="top-bar-left">
       <ul class="menu">
         <li class="menu-text">
-          <a href="{% url 'index' %}">Open Notices</a>
+          <a href="{% url 'notice-list' %}">Open Notices</a>
         </li>
       </ul>
     </div>
@@ -29,14 +33,11 @@
       <ul class="menu">
         {% if user.is_authenticated %}
           <li>
-            Signed in as {{user.email}}
-          </li>
-          <li>
-            <a href="{% url 'logout' %}">Sign out</a>
-          </li>
+            <a href="{% url 'alert-create' %}" class="button small">Manage your alerts</a>
+          </li>          
         {% else %}
           <li>
-            <a href="{% url 'login' %}">Sign in</a>
+            <a href="{% url 'alert-create' %}" class="button small">Create a local alert</a>
           </li>
         {% endif %}
       </ul>
@@ -55,10 +56,29 @@
   {% endblock %}
 </main>
 <footer>
-  <div class="row column small-12">
-    <p>
-      This is an alpha. Things may break.
-    </p>
+  <div class="row">
+    <div class="column small-12 medium-6">
+      <p>
+        This is an alpha. Things may break.
+      </p>
+      <ul>
+        <li>
+          <a href="{% url 'notice-create' %}">Add a notice</a>
+        </li>
+        <li>
+          <a href="{% url 'notice-list' %}">All notices</a>
+        </li>
+      </ul>
+    </div>
+    <div class="column small-12 medium-6">
+      <p class="text-right">
+        {% if user.is_authenticated %}
+            Signed in as {{user.email}} <a href="{% url 'logout' %}"  class="button small">Sign out</a>
+        {% else %}
+            <a href="{% url 'login' %}" class="button small">Sign in</a>
+        {% endif %}
+      </p>
+    </div>
   </div>
 </footer>
 </body>

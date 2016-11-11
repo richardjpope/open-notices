@@ -11,14 +11,32 @@ module.exports = function(grunt) {
         }
       }
     },
+    copy: {
+      target: {
+        files: [
+          {
+            expand: true,
+            cwd: 'community/assets/javascript',
+            src: ['*.js'], 
+            dest: 'community/static/javascript', 
+            filter: 'isFile'
+          }
+        ]
+      }
+    },
     watch: {
       css: {
         files: '**/*.scss',
         tasks: ['sass']
-      }
+      },
+      scripts: {
+        files: 'community/assets/**/*.js',
+        tasks: ['javascript']
+      },
     }
   });
   grunt.loadNpmTasks('grunt-contrib-sass');
   grunt.loadNpmTasks('grunt-contrib-watch');
+  grunt.loadNpmTasks('grunt-contrib-copy')
   grunt.registerTask('default',['watch']);
 }

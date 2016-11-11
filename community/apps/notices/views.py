@@ -1,10 +1,21 @@
+import json
+from django.http import JsonResponse
 from django.shortcuts import redirect
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import FormView
+from django.views.generic import TemplateView
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
+from django.core.serializers import serialize
 from notices import models, forms
+
+class NoticeListJsonView(TemplateView):
+    def render_to_response(self, context, **response_kwargs):
+        notices = models.Notice.objects.all()
+        notices_json =  serialize('geojson', notices,fields=('location', 'title', 'pk'))
+        notices_dict = json.loads(notices_json)
+        return JsonResponse(notices_dict,**response_kwargs)
 
 class NoticeListView(ListView):
     model = models.Notice
@@ -18,7 +29,7 @@ class NoticeCreateView(FormView):
     form_class = forms.CreateNotice
 
     def form_valid(self, form):
-      
+
       notice = models.Notice()
       notice.title = form.cleaned_data['title']
       notice.details = form.cleaned_data['details']
