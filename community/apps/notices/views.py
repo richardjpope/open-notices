@@ -8,20 +8,55 @@ from django.views.generic import TemplateView
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
 from django.core.serializers import serialize
+from rest_framework.views import APIView
+from rest_framework import generics
+from rest_framework.serializers import ModelSerializer
+from rest_framework.response import Response
+from rest_framework_gis.serializers import GeoFeatureModelSerializer
 from notices import models, forms
 
-class NoticeListJsonView(TemplateView):
-    def render_to_response(self, context, **response_kwargs):
-        notices = models.Notice.objects.all()
-        notices_json =  serialize('geojson', notices,fields=('location', 'title', 'pk'))
-        notices_dict = json.loads(notices_json)
-        return JsonResponse(notices_dict,**response_kwargs)
+class NoticeGeojsonSerializer(GeoFeatureModelSerializer):
 
-class NoticeListView(ListView):
-    model = models.Notice
+    class Meta:
+        model = models.Notice
+        geo_field = "location"
+        fields = ('id', 'location', 'title', 'details')
 
-class NoticeDetailView(DetailView):
-    model = models.Notice
+class NoticeSerializer(ModelSerializer):
+
+    class Meta:
+        model = models.Notice
+        fields = ('id', 'location', 'title', 'details')
+
+class NoticeListView(generics.ListCreateAPIView):
+    template_name = 'notices/notice_list.html'
+    queryset = models.Notice.objects.all()
+    serializer_class = NoticeSerializer
+
+    def get(self, request, format='html', *args, **kwargs):
+
+        if format == 'html':
+            return Response({'notices': self.get_queryset()})
+        elif format == 'geojson':
+            serializer = NoticeGeojsonSerializer(self.get_queryset(), many=True)
+            return Response(serializer.data)
+        else:
+            return super(NoticeListView, self).get(request, format, *args, **kwargs)
+
+class NoticeDetailView(generics.RetrieveAPIView):
+    queryset = models.Notice.objects.all()
+    serializer_class = NoticeSerializer
+    template_name = 'notices/notice_detail.html'
+
+    def get(self, request, format='html', *args, **kwargs):
+        
+        if format == 'html':
+          return Response({'notice': self.get_object()}, template_name='notices/notice_detail.html')          
+        elif format == 'geojson':
+            serializer = NoticeGeojsonSerializer(self.get_object())
+            return Response(serializer.data)
+        else:
+          return super(NoticeDetailView, self).get(request, format, *args, **kwargs)
 
 @method_decorator(login_required, name='dispatch')
 class NoticeCreateView(FormView):

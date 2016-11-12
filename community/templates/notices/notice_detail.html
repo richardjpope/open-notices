@@ -7,8 +7,11 @@
   
 {% block content %}
   <div class="row column small-12">
-    <h1>{{object.title}}</h1>
-    <p>{{object.details|markdown}}</p>
-    <p>{{object.location}}</p>
+    <h1>{{notice.title}}</h1>
+    <p>{{notice.details|markdown}}</p>
+    <p>{{notice.location}}</p>
+    <aside class="data-links">
+      <a href="{% url 'notice-detail' notice.id %}.api">Browse API</a>
+    </aside>
   </div>
 {% endblock %}

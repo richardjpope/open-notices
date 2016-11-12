@@ -17,6 +17,8 @@ INSTALLED_APPS = [
     'django.contrib.gis',
     'foundation_formtags',
     'markdown_deux',
+    'rest_framework',
+    'rest_framework_gis',
     'core',
     'notices',
     'alerts',
@@ -94,3 +96,16 @@ CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
 
 AUTH_USER_MODEL = 'core.User'
+
+REST_FRAMEWORK = {
+    'DEFAULT_RENDERER_CLASSES': (
+        'rest_framework.renderers.TemplateHTMLRenderer',
+        'rest_framework.renderers.JSONRenderer',
+        'rest_framework.renderers.BrowsableAPIRenderer',
+        'rest_framework_csv.renderers.CSVRenderer',
+        'core.utils.GEOJSONRenderer.GEOJSONRenderer'
+    ),
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticatedOrReadOnly',
+    )
+}

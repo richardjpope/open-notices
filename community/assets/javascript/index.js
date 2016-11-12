@@ -25,7 +25,7 @@ $(document).ready(function(){
   var vector = new ol.layer.Vector({
     source: new ol.source.Vector({
         format: new ol.format.GeoJSON(),
-        url: 'http://localhost:8000/notices/api'
+        url: 'http://localhost:8000/notices.geojson'
     }),
     style: new ol.style.Style({
         stroke: new ol.style.Stroke({
@@ -95,7 +95,7 @@ $(document).ready(function(){
       });
     element = popup.getElement();
     if (feature) {
-      $(element).html('<a href="/notices/' + feature.getProperties()['pk'] + '">' + feature.getProperties()['title'] + '</a>');
+      $(element).html('<a href="/notices/' + feature.getId() + '">' + feature.getProperties()['title'] + '</a>');
       $(element).show();
       centroid = ol.extent.getCenter(feature.getGeometry().getExtent());
       pan = ol.animation.pan({duration: 200,source:(view.getCenter())});

@@ -81,7 +81,8 @@ class AlertCreateUserView(FormView):
 
         #create user
         UserModel = get_user_model()
-        user = UserModel(email=form.cleaned_data['email'], password=form.cleaned_data['password'])
+        user = UserModel(email=form.cleaned_data['email'])
+        user.set_password(form.cleaned_data['password'])
         user.save()
 
         #sign new user in
