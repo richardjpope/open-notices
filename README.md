@@ -5,7 +5,7 @@ You will need these things:
 Python
 virtualenv
 Postgis (needs to be running)
-RabitMQ (needs to be running)
+RabitMQ (needs to be running to send emails)
 Grunt
 
 #Run development version

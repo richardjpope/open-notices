@@ -20,7 +20,7 @@ $(document).ready(function(){
 
   //map
   var geoJSONFormat = new ol.format.GeoJSON();
-
+  
   raster = new ol.layer.Tile({source: new ol.source.OSM()});
   var vector = new ol.layer.Vector({
     source: new ol.source.Vector({

@@ -44,4 +44,4 @@ class NoticeTestCase(TestCase):
         self.client.login(email='existinguser@example.org', password='notasecret')
         data =  {'title': 'Test notice', 'details': 'It is a test', 'location': 'SRID=3857;POINT (-284821.3533571999869309 6865433.3731604004278779)'}
         response = self.client.post('/notices/new', data)
-        self.assertRedirects(response, '/notices/1/')
+        self.assertRedirects(response, '/notices/1')
