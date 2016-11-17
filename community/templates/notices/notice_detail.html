@@ -2,7 +2,7 @@
 {% load markdown_deux_tags %}
 
 {% block title %}
-  {{object.title}}
+  {{notice.title}}
 {% endblock %}
   
 {% block content %}
@@ -11,7 +11,11 @@
     <p>{{notice.details|markdown}}</p>
     <p>{{notice.location}}</p>
     <aside class="data-links">
-      <a href="{% url 'notice-detail' notice.id %}.api">Browse API</a>
+      <ul>
+        <li><a href="{% url 'notice-detail' notice.id %}.json">JSON</a></li>
+        <li><a href="{% url 'notice-detail' notice.id %}.geojson">GEOJSON</a></li>
+        <li><a href="{% url 'notice-detail' notice.id %}.csv">CSV</a></li>
+      </ul>
     </aside>
   </div>
 {% endblock %}

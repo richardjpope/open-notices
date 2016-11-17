@@ -19,6 +19,8 @@ INSTALLED_APPS = [
     'markdown_deux',
     'rest_framework',
     'rest_framework_gis',
+    'rest_framework.authtoken',
+    'rest_framework_docs',
     'core',
     'notices',
     'alerts',
@@ -98,6 +100,9 @@ CELERY_RESULT_SERIALIZER = 'json'
 AUTH_USER_MODEL = 'core.User'
 
 REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.SessionAuthentication',
+    ),
     'DEFAULT_RENDERER_CLASSES': (
         'rest_framework.renderers.TemplateHTMLRenderer',
         'rest_framework.renderers.JSONRenderer',

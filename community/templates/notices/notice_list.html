@@ -10,14 +10,18 @@
   <div class="row column small-12">
     <h1>Notices</h1>
     <ul>
-      {% for notice in notices %}
+      {% for notice in object_list %}
         <li>
           <a href="{% url 'notice-detail' notice.id %}">{{notice.title}}</a>
         </li>
       {% endfor %}
     </ul>
     <aside class="data-links">
-      <a href="{% url 'notice-list' %}.api">Browse API</a>
+      <ul>
+        <li><a href="{% url 'notice-list' %}.json">JSON</a></li>
+        <li><a href="{% url 'notice-list' %}.geojson">GEOJSON</a></li>
+        <li><a href="{% url 'notice-list' %}.csv">CSV</a></li>
+      </ul>
     </aside>
   </div>
 {% endblock %}

@@ -8,4 +8,13 @@ urlpatterns = [
     url(r'^/(?P<pk>[0-9]+)/?$', views.NoticeDetail.as_view(), name='notice-detail'),
 ]
 
-urlpatterns = format_suffix_patterns(urlpatterns, allowed=['json', 'html', 'api', 'geojson', 'csv'])
+api_urlpatterns = [
+    url(r'^/?$', views.NoticeListAPI.as_view(), name='notice-list-api'),
+    url(r'^/new$', views.NoticeCreateAPI.as_view(), name='notice-create-api'),    
+    url(r'^/(?P<pk>[0-9]+)/?$', views.NoticeDetailAPI.as_view(), name='notice-detail-api'),
+]
+
+api_urlpatterns = format_suffix_patterns(api_urlpatterns, allowed=['json', 'geojson', 'csv'])
+
+
+urlpatterns += api_urlpatterns

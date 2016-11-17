@@ -1,11 +1,17 @@
 from django.test import TestCase
 from django.test import Client
+from rest_framework.test import APIClient
 from notices import models
 from django.contrib.auth import get_user_model
 
-# Create your tests here.
+class NoticeAPITestCase(TestCase):
+    def setUp(self):
+        self.client = Client()
+
+
 class NoticeTestCase(TestCase):
     def setUp(self):
+
         # Every test needs a client.
         self.client = Client()
 
@@ -27,6 +33,7 @@ class NoticeTestCase(TestCase):
         notice.save()
 
         response = self.client.get('/notices/%s/' % notice.pk)
+
         self.assertContains(response, 'test title', 2, 200)
         self.assertEqual(response.status_code, 200)
 
