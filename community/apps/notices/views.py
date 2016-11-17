@@ -8,6 +8,7 @@ from rest_framework import generics
 from rest_framework.serializers import ModelSerializer
 from rest_framework.response import Response
 from rest_framework_gis.serializers import GeoFeatureModelSerializer
+from rest_framework.exceptions import MethodNotAllowed
 from notices import models, forms
 
 class NoticeGeojsonSerializer(GeoFeatureModelSerializer):
@@ -66,6 +67,15 @@ class NoticeCreate(FormView):
 
       return redirect(notice)
 
+
 class NoticeCreateAPI(generics.CreateAPIView):
 
     serializer_class = NoticeSerializer
+
+    def post(self, request, format='json', *args, **kwargs):
+        #ONly JSON accepted for edit/create/delete
+        if not format == 'json':
+            raise MethodNotAllowed('')
+        else:
+            return super(NoticeCreateAPI, self).post(request, format, *args, **kwargs)
+

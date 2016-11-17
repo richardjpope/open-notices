@@ -3,11 +3,57 @@ from django.test import Client
 from rest_framework.test import APIClient
 from notices import models
 from django.contrib.auth import get_user_model
+from rest_framework.authtoken.models import Token
 
 class NoticeAPITestCase(TestCase):
     def setUp(self):
-        self.client = Client()
+        self.client = APIClient()
+        UserModel = get_user_model()
+        self.user = UserModel(email='existinguser@example.org')
+        self.user.set_password('notasecret')
+        self.user.save()
+        Token.objects.create(user=self.user)
 
+    def test_create_get_not_found(self):
+        response = self.client.get('/notices/new.json')
+        self.assertEqual(response.status_code, 405)
+
+    def test_create_unauthorised(self):
+        response = self.client.post('/notices/new.json')
+        self.assertEqual(response.status_code, 401)
+
+    def test_create_authorised_empty(self):
+        token = Token.objects.get_or_create(user=self.user)[0]
+        self.client.credentials(HTTP_AUTHORIZATION='Token ' + token.key)
+        response = self.client.post('/notices/new.json')
+        self.assertEqual(response.status_code, 400)
+
+    def test_create_authorised_valid(self):
+        data = {'title': 'test title', 'location': '{"type":"Point","coordinates":[-0.09430885313565737,51.43326585306407]}'}
+        token = Token.objects.get_or_create(user=self.user)[0]
+        self.client.credentials(HTTP_AUTHORIZATION='Token ' + token.key)
+        response = self.client.post('/notices/new.json', data)
+        self.assertEqual(response.status_code, 201)
+
+    def test_create_authorised_valid(self):
+        data = {'title': 'test title', 'location': '{"type":"Point","coordinates":[-0.09430885313565737,51.43326585306407]}'}
+        token = Token.objects.get_or_create(user=self.user)[0]
+        self.client.credentials(HTTP_AUTHORIZATION='Token ' + token.key)
+        response = self.client.post('/notices/new.json', data)
+        self.assertEqual(response.status_code, 201)
+
+    def test_create_non_json_denied(self):
+        data = {'title': 'test title', 'location': '{"type":"Point","coordinates":[-0.09430885313565737,51.43326585306407]}'}
+        token = Token.objects.get_or_create(user=self.user)[0]
+
+
+        self.client.credentials(HTTP_AUTHORIZATION='Token ' + token.key)
+        response = self.client.post('/notices/new.geojson', data)
+        self.assertEqual(response.status_code, 405)
+
+        self.client.credentials(HTTP_AUTHORIZATION='Token ' + token.key)
+        response = self.client.post('/notices/new.csv', data)
+        self.assertEqual(response.status_code, 405)
 
 class NoticeTestCase(TestCase):
     def setUp(self):
@@ -51,4 +97,4 @@ class NoticeTestCase(TestCase):
         self.client.login(email='existinguser@example.org', password='notasecret')
         data =  {'title': 'Test notice', 'details': 'It is a test', 'location': 'SRID=3857;POINT (-284821.3533571999869309 6865433.3731604004278779)'}
         response = self.client.post('/notices/new', data)
-        self.assertRedirects(response, '/notices/1')
+        self.assertEqual(response.status_code, 302)

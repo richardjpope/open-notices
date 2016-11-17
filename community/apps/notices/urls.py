@@ -16,5 +16,4 @@ api_urlpatterns = [
 
 api_urlpatterns = format_suffix_patterns(api_urlpatterns, allowed=['json', 'geojson', 'csv'])
 
-
 urlpatterns += api_urlpatterns

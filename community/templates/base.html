@@ -33,7 +33,7 @@
       <ul class="menu">
         {% if user.is_authenticated %}
           <li>
-            <a href="{% url 'alert-create' %}" class="button small">Manage your alerts</a>
+            <a href="{% url 'alert-list' %}" class="button small">Manage your alerts</a>
           </li>          
         {% else %}
           <li>
@@ -67,6 +67,9 @@
         </li>
         <li>
           <a href="{% url 'notice-list' %}">All notices</a>
+        </li>
+        <li>
+          <a href="{% url 'api' %}">API</a>
         </li>
       </ul>
     </div>
