@@ -16,5 +16,6 @@ EMAIL_FROM_ADDRESS = 'mail@localhost'
 DATABASES = {
     'default': dj_database_url.config()
 }
+DATABASES['default']['ENGINE'] = 'django.contrib.gis.db.backends.postgis'
 
 # BROKER_URL = 'redis://localhost:6379/0'
