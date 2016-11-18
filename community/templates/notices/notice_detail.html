@@ -1,5 +1,10 @@
 {% extends "base.html" %}
+{% load staticfiles %}
 {% load markdown_deux_tags %}
+
+{% block head %}
+  <script type="text/javascript" src="{% static 'javascript/notice.js' %}"></script>
+{% endblock %}
 
 {% block title %}
   {{notice.title}}
@@ -7,15 +12,18 @@
   
 {% block content %}
   <div class="row column small-12">
-    <h1>{{notice.title}}</h1>
-    <p>{{notice.details|markdown}}</p>
-    <p>{{notice.location}}</p>
-    <aside class="data-links">
-      <ul>
-        <li><a href="{% url 'notice-detail' notice.id %}.json">JSON</a></li>
-        <li><a href="{% url 'notice-detail' notice.id %}.geojson">GEOJSON</a></li>
-        <li><a href="{% url 'notice-detail' notice.id %}.csv">CSV</a></li>
-      </ul>
-    </aside>
+    <article class="notice">
+      <h1>{{notice.title}}</h1>
+      <div id="map" class="map"></div>    
+      <p>{{notice.details|markdown}}</p>
+      <p>{{notice.location}}</p>
+      <aside class="data-links">
+        <ul>
+          <li><a href="{% url 'notice-detail' notice.id %}.json">JSON</a></li>
+          <li><a href="{% url 'notice-detail' notice.id %}.geojson">GEOJSON</a></li>
+          <li><a href="{% url 'notice-detail' notice.id %}.csv">CSV</a></li>
+        </ul>
+      </aside>
+    </article>
   </div>
 {% endblock %}

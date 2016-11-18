@@ -31,7 +31,7 @@ module.exports = function(grunt) {
       },
       scripts: {
         files: 'community/assets/**/*.js',
-        tasks: ['javascript']
+        tasks: ['copy']
       },
     }
   });
