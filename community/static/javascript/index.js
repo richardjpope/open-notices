@@ -14,14 +14,13 @@ $(document).ready(function(){
       } else {
         intro_text_example_count = 0;
       }
-
     });
   }, 2000);
 
   //map
   var geoJSONFormat = new ol.format.GeoJSON();
   
-  raster = new ol.layer.Tile({source: new ol.source.OSM()});
+  raster = new ol.layer.Tile({source: new ol.source.Stamen({layer: 'toner'})});
   var vector = new ol.layer.Vector({
     source: new ol.source.Vector({
         format: new ol.format.GeoJSON(),
@@ -29,19 +28,19 @@ $(document).ready(function(){
     }),
     style: new ol.style.Style({
         stroke: new ol.style.Stroke({
-            color: '#000000',
-            width: 1.5
+            color: '#ff0000',
+            width: 3
         }),
         image: new ol.style.Circle({
                         radius: 7,
                         fill: new ol.style.Fill({
-                            color: 'black'
+                            color: '#ff0000'
                         })
                     })
     })
 });
 
-  view = new ol.View({center: [0, 4600000],zoom: 2})
+  view = new ol.View({center: ol.proj.fromLonLat([0.1278, 51.5074]), zoom: 10})
   geolocation = new ol.Geolocation({
         projection: view.getProjection()
       });
