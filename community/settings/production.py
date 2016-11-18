@@ -19,3 +19,4 @@ DATABASES = {
 DATABASES['default']['ENGINE'] = 'django.contrib.gis.db.backends.postgis'
 
 # BROKER_URL = 'redis://localhost:6379/0'
+
