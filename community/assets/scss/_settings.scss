@@ -103,12 +103,12 @@ $block-grid-max: 8;
 // ------------------
 
 $header-font-family: 'Arvo', serif;
-$header-font-weight: $global-weight-normal;
+$header-font-weight: $global-weight-bold;
 $header-font-style: normal;
 $font-family-monospace: Consolas, 'Liberation Mono', Courier, monospace;
 $header-sizes: (
   small: (
-    'h1': 24,
+    'h1': 28,
     'h2': 20,
     'h3': 19,
     'h4': 18,
@@ -546,7 +546,7 @@ $titlebar-color: $white;
 $titlebar-padding: 0.5rem;
 $titlebar-text-font-weight: bold;
 $titlebar-icon-color: $white;
-$titlebar-icon-color-hover: $medium-gray;
+$titlebar-icon-color-hover: $white;
 $titlebar-icon-spacing: 0.25rem;
 
 // 35. Tooltip

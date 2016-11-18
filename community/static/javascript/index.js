@@ -1,6 +1,5 @@
 $(document).ready(function(){
 
-
   //rotate intro text
   intro_text_example_count = 0;
   types = ['planning applications', 'licensing notices', 'parking suspensions', 'bin collections'];
@@ -16,6 +15,9 @@ $(document).ready(function(){
       }
     });
   }, 2000);
+
+  //jiggle some controls about
+  $('#q_label').addClass('show-for-sr');
 
   //map
   var geoJSONFormat = new ol.format.GeoJSON();

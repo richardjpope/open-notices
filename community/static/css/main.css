@@ -1338,7 +1338,7 @@ h4,
 h5,
 h6 {
   font-family: "Arvo", serif;
-  font-weight: normal;
+  font-weight: bold;
   font-style: normal;
   color: inherit;
   text-rendering: optimizeLegibility;
@@ -1355,7 +1355,7 @@ h6 {
     line-height: 0; }
 
 h1 {
-  font-size: 1.5rem; }
+  font-size: 1.75rem; }
 
 h2 {
   font-size: 1.25rem; }
@@ -2334,8 +2334,8 @@ select {
     left: 0;
     box-shadow: 0 7px 0 #fefefe, 0 14px 0 #fefefe; }
   .menu-icon:hover::after {
-    background: #bdc3c7;
-    box-shadow: 0 7px 0 #bdc3c7, 0 14px 0 #bdc3c7; }
+    background: #fefefe;
+    box-shadow: 0 7px 0 #fefefe, 0 14px 0 #fefefe; }
 
 .menu-icon.dark {
   position: relative;
@@ -4968,7 +4968,7 @@ h4,
 h5,
 h6 {
   font-family: "Arvo", serif;
-  font-weight: normal;
+  font-weight: bold;
   font-style: normal;
   color: inherit;
   text-rendering: optimizeLegibility;
@@ -4985,7 +4985,7 @@ h6 {
     line-height: 0; }
 
 h1 {
-  font-size: 1.5rem; }
+  font-size: 1.75rem; }
 
 h2 {
   font-size: 1.25rem; }
@@ -5870,11 +5870,19 @@ select {
 [hidden] {
   display: none; }
 
+html, body, main, .map {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%; }
+
 header a, header a:hover {
   color: #fefefe;
   font-weight: bold; }
 header .menu-text {
-  padding: 0; }
+  padding: 0;
+  font-weight: bold;
+  font-size: 125%; }
 header .top-bar-title {
   font-family: "Arvo", serif; }
 header #menu_collapse {
@@ -5907,7 +5915,12 @@ footer {
     margin-left: 0; }
 
 #intro {
-  padding: 1rem; }
+  padding: 1rem;
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  background: #ecf0f1; }
   #intro h1 {
     font-size: 100%;
     font-weight: bold; }
@@ -5924,6 +5937,13 @@ footer {
   font-size: 80%;
   padding: 0.25rem; }
 
+.ol-control button, .ol-control button:hover {
+  background-color: #2ecc71;
+  border-radius: 0%; }
+
+.notice header {
+  text-align: center;
+  padding: 2rem 1rem; }
 .notice .map {
   height: 200px; }
 

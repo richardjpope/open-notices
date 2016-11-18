@@ -11,7 +11,7 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="viewport" content="width=device-width,minimum-scale=1.0, maximum-scale=1.0" />
   <script language="javascript">var STATIC_URL = "{% static "" %}";</script>
-  <link href="https://fonts.googleapis.com/css?family=Arvo" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Arvo:400,700" rel="stylesheet">
   <script   src="https://code.jquery.com/jquery-3.1.1.min.js"   integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="   crossorigin="anonymous"></script>
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/foundation/6.2.4/foundation.min.js"></script>
   <script type="text/javascript" src="https://openlayers.org/en/v3.19.1/build/ol.js"></script>
@@ -47,7 +47,7 @@
             </li>
           {% else %}
             <li>
-              <a href="{% url 'alert-create' %}">Create a local alert</a>
+              <a href="{% url 'alert-create' %}">Create an alert</a>
             </li>
           {% endif %}
         </ul>

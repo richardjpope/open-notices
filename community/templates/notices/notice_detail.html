@@ -11,10 +11,12 @@
 {% endblock %}
   
 {% block content %}
-  <div class="row column small-12">
-    <article class="notice">
+  <article class="notice">
+    <header class="row columns">
       <h1>{{notice.title}}</h1>
-      <div id="map" class="map"></div>    
+    </header>
+    <div id="map" class="map"></div>    
+    <div class="row columns  medium-10 large-6">
       <p>{{notice.details|markdown}}</p>
       <p>{{notice.location}}</p>
       <aside class="data-links">
@@ -24,6 +26,6 @@
           <li><a href="{% url 'notice-detail' notice.id %}.csv">CSV</a></li>
         </ul>
       </aside>
-    </article>
-  </div>
+    </div>
+  </article>
 {% endblock %}
