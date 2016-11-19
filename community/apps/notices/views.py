@@ -8,21 +8,43 @@ from rest_framework import generics
 from rest_framework.serializers import ModelSerializer
 from rest_framework.response import Response
 from rest_framework_gis.serializers import GeoFeatureModelSerializer
+from rest_framework_hstore.fields import HStoreField
 from rest_framework.exceptions import MethodNotAllowed
 from notices import models, forms
 
 class NoticeGeojsonSerializer(GeoFeatureModelSerializer):
+    data = HStoreField()
 
     class Meta:
         model = models.Notice
         geo_field = "location"
-        fields = ('id', 'location', 'title', 'details')
+        fields = ('id', 'location', 'title', 'details', 'data')
+
+    def get_properties(self, instance, fields):
+
+        #get the default serialisation
+        properties = super(NoticeGeojsonSerializer, self).get_properties(instance, fields)
+
+        #extract the hstore field
+        hstore_field_name = 'data'
+        hstore_data = None
+        for key, value  in properties.items():
+            if key == hstore_field_name:
+                hstore_data = value
+                del properties[key]
+
+        #add the items from the hstore field at the 'properties' level
+        for key, value in hstore_data.items():
+            properties[key] = value
+
+        return properties
 
 class NoticeSerializer(ModelSerializer):
+    data = HStoreField()
 
     class Meta:
         model = models.Notice
-        fields = ('id', 'location', 'title', 'details')
+        fields = ('id', 'location', 'title', 'details', 'data')
 
 class NoticeList(ListView):
     model = models.Notice
@@ -57,12 +79,16 @@ class NoticeCreate(FormView):
     template_name = 'notices/notice_create.html'
     form_class = forms.CreateNotice
 
+    def get_initial(self):
+        return {'data': {'test 1 k': ' test 1 v', 'test 2 k': ' test 2 v'}}
+
     def form_valid(self, form):
 
       notice = models.Notice()
       notice.title = form.cleaned_data['title']
       notice.details = form.cleaned_data['details']
       notice.location = form.cleaned_data['location']
+      notice.data = form.cleaned_data['data']
       notice.save()
 
       return redirect(notice)

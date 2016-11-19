@@ -39,7 +39,7 @@
       <div class="top-bar-right">
         <ul class="dropdown menu" data-dropdown-menu>
           <li>
-            <a href="{% url 'notice-create' %}">Share a notice</a>
+            <a href="{% url 'notice-create' %}">Post a notice</a>
           </li>
           {% if user.is_authenticated %}
             <li>
@@ -97,7 +97,7 @@
   {% block content %}
   {% endblock %}
 </main>
-<footer>
+<!-- <footer>
   <div class="row">
     <div class="column small-12 medium-6">
       <p>
@@ -125,6 +125,6 @@
       </p>
     </div>
   </div>
-</footer>
+</footer> -->
 </body>
 </html>

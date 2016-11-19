@@ -8,6 +8,8 @@ Postgis (needs to be running)
 RabitMQ (needs to be running to send emails)
 Grunt
 
+#todo: instructions for setting up database (hstore and postgis)
+
 #Run development version
 git clone https://github.com/memespring/open-notices.git
 virtualenv .

@@ -1,0 +1,23 @@
+<div class="row">
+    <div class="columns small-12">
+      <fieldset>
+        <legend>Fields</legend>
+        {% for k, v in value %}
+          <div class="row">
+            <div class="small-1 columns">
+              <label for="{{name}}_key_{{forloop.counter0}}" class="right">Key</label>
+            </div>
+            <div class="small-5 columns">
+              <input name="{{name}}_key_{{forloop.counter0}}" id="{{name}}_key_{{forloop.counter0}}" type="text" value="{{k}}">
+            </div>
+            <div class="small-1 columns">
+              <label for="{{name}}_key_{{forloop.counter0}}" class="right">Value</label>
+            </div>
+            <div class="small-5 columns">
+              <input name="{{name}}_value_{{forloop.counter0}}" id="{{name}}_value_{{forloop.counter0}}" type="text" value="{{v}}">
+            </div>
+          </div>
+        {% endfor %}
+      </fieldset>
+    </div>
+  </div>

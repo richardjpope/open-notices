@@ -1,5 +1,6 @@
 from django.contrib.gis.db import models
 from django.core.urlresolvers import reverse
+from django.contrib.postgres.fields import HStoreField
 
 class Notice(models.Model):
     title = models.CharField(max_length=50)
@@ -7,6 +8,7 @@ class Notice(models.Model):
     location = models.GeometryField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    data = HStoreField(null=True)
 
     objects = models.GeoManager()
 
