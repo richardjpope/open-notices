@@ -29,30 +29,30 @@ class NoticeAPITestCase(TestCase):
         self.assertEqual(response.status_code, 400)
 
     def test_create_authorised_valid(self):
-        data = {'title': 'test title', 'location': '{"type":"Point","coordinates":[-0.09430885313565737,51.43326585306407]}'}
+        data = {'title': 'test title', 'location': '{"type":"Point","coordinates":[-0.09430885313565737,51.43326585306407]}', 'data': []}
         token = Token.objects.get_or_create(user=self.user)[0]
         self.client.credentials(HTTP_AUTHORIZATION='Token ' + token.key)
-        response = self.client.post('/notices/new.json', data)
+        response = self.client.post('/notices/new.json', data, format='json')
         self.assertEqual(response.status_code, 201)
 
     def test_create_authorised_valid(self):
-        data = {'title': 'test title', 'location': '{"type":"Point","coordinates":[-0.09430885313565737,51.43326585306407]}'}
+        data = {'title': 'test title', 'location': {"type":"Point","coordinates":[-0.09430885313565737,51.43326585306407]}, 'data': []}
         token = Token.objects.get_or_create(user=self.user)[0]
         self.client.credentials(HTTP_AUTHORIZATION='Token ' + token.key)
-        response = self.client.post('/notices/new.json', data)
+        response = self.client.post('/notices/new.json', data, format='json')
         self.assertEqual(response.status_code, 201)
 
     def test_create_non_json_denied(self):
-        data = {'title': 'test title', 'location': '{"type":"Point","coordinates":[-0.09430885313565737,51.43326585306407]}'}
+        data = {'title': 'test title', 'location': '{"type":"Point","coordinates":[-0.09430885313565737,51.43326585306407]}', 'data': []}
         token = Token.objects.get_or_create(user=self.user)[0]
 
 
         self.client.credentials(HTTP_AUTHORIZATION='Token ' + token.key)
-        response = self.client.post('/notices/new.geojson', data)
+        response = self.client.post('/notices/new.geojson', data, format='json')
         self.assertEqual(response.status_code, 405)
 
         self.client.credentials(HTTP_AUTHORIZATION='Token ' + token.key)
-        response = self.client.post('/notices/new.csv', data)
+        response = self.client.post('/notices/new.csv', data, format='json')
         self.assertEqual(response.status_code, 405)
 
 class NoticeTestCase(TestCase):
@@ -90,7 +90,7 @@ class NoticeTestCase(TestCase):
     def test_create_empty(self):
         self.client.login(email='existinguser@example.org', password='notasecret')
         response = self.client.post('/notices/new')
-        self.assertContains(response, "This field is required", 2, 200)
+        self.assertContains(response, "This field is required", 1, 200)
         self.assertContains(response, "No geometry value provided", 1, 200)
 
     def test_create_valid(self):

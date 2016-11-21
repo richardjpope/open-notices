@@ -11,11 +11,14 @@ class DataWidget(Widget):
 
     def render(self, name, value, attrs=None):
         items = []
-        json_data = json.loads(value)
-        for k, v in json_data.items():
-            items.append((k, v))
-        while len(items) <= self.empty_count:
-            items.append(('', ''))
+        try:
+            json_data = json.loads(value)
+            for k, v in json_data.items():
+                items.append((k, v))
+            while len(items) <= self.empty_count:
+                items.append(('', ''))
+        except TypeError:
+            pass
         context = {'name': name, 'value':  items}
         return loader.render_to_string(self.template_name, context)
 

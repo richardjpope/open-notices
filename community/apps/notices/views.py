@@ -34,8 +34,9 @@ class NoticeGeojsonSerializer(GeoFeatureModelSerializer):
                 del properties[key]
 
         #add the items from the hstore field at the 'properties' level
-        for key, value in hstore_data.items():
-            properties[key] = value
+        if hstore_data:
+            for key, value in hstore_data.items():
+                properties[key] = value
 
         return properties
 
@@ -79,19 +80,9 @@ class NoticeCreate(FormView):
     template_name = 'notices/notice_create.html'
     form_class = forms.CreateNotice
 
-    def get_initial(self):
-        return {'data': {'test 1 k': ' test 1 v', 'test 2 k': ' test 2 v'}}
-
     def form_valid(self, form):
-
-      notice = models.Notice()
-      notice.title = form.cleaned_data['title']
-      notice.details = form.cleaned_data['details']
-      notice.location = form.cleaned_data['location']
-      notice.data = form.cleaned_data['data']
-      notice.save()
-
-      return redirect(notice)
+        notice = form.save()
+        return redirect(notice)
 
 
 class NoticeCreateAPI(generics.CreateAPIView):
@@ -99,7 +90,7 @@ class NoticeCreateAPI(generics.CreateAPIView):
     serializer_class = NoticeSerializer
 
     def post(self, request, format='json', *args, **kwargs):
-        #ONly JSON accepted for edit/create/delete
+        #Only JSON accepted for edit/create/delete
         if not format == 'json':
             raise MethodNotAllowed('')
         else:
