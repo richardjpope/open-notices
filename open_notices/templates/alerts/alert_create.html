@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block head %}
+  {{ form.media }}
+{% endblock %}
+
+{% block title %}
+  New alert
+{% endblock %}
+  
+{% block content %}
+  <div class="row column small-12">
+    <h1>New alert</h1>
+    <p>Draw the area you would like alerts for on the map</p>
+    {% if form.errors %}
+        {% for field in form %}
+            {% for error in field.errors %}
+                <div class="callout alert">
+                    <strong>{{ error|escape }}</strong>
+                </div>
+            {% endfor %}
+        {% endfor %}
+        {% for error in form.non_field_errors %}
+            <div class="callout alert">
+                <strong>{{ error|escape }}</strong>
+            </div>
+        {% endfor %}
+    {% endif %}
+    <form action="" method="post">
+      {% csrf_token %}
+      {{form.location}}
+      {% if user.is_authenticated %}
+        <button type="submit" class="button expanded">Create alert</button>
+      {% else %}
+        <button type="submit" class="button expanded">Next</button>
+      {% endif %}
+    </form>
+  </div>
+{% endblock %}

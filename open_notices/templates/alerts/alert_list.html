@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}
+  Alerts
+{% endblock %}
+  
+{% block content %}
+  <div class="row column small-12">
+    <h1>Alerts</h1>
+    <ul>
+    {% for alert in object_list %}
+        <li>
+          {{alert.location}}
+          <a href="{% url 'alert-delete' alert.id %}" class="button small">Delete</a>
+        </li>
+    {% empty %}
+        <li>You have not created any alerts</li>
+    {% endfor %}
+    </ul>
+  </div>
+{% endblock %}

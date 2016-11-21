@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% load markdown_deux_tags %}
+
+{% block head %}
+  <script type="text/javascript" src="{% static 'javascript/notice.js' %}"></script>
+{% endblock %}
+
+{% block title %}
+  {{notice.title}}
+{% endblock %}
+  
+{% block content %}
+  <article class="notice">
+    <header class="row columns">
+      <h1>{{notice.title}}</h1>
+    </header>
+    <div id="map" class="map"></div>    
+    <div class="row columns  medium-10 large-6">
+      <p>{{notice.details|markdown}}</p>
+      <table>
+        {% for key, value in notice.data.items %}
+          <tr>
+            <th>{{key}}</th>
+            <td>{{value}}</td>
+          </tr>
+        {% endfor %}
+    </table>
+      <aside class="data-links">
+        <ul>
+          <li><a href="{% url 'notice-detail' notice.id %}.json">JSON</a></li>
+          <li><a href="{% url 'notice-detail' notice.id %}.geojson">GEOJSON</a></li>
+          <li><a href="{% url 'notice-detail' notice.id %}.csv">CSV</a></li>
+        </ul>
+      </aside>
+    </div>
+  </article>
+{% endblock %}

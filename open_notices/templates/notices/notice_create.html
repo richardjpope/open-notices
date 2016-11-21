@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% load markdown_deux_tags %}
+
+{% block head %}
+  {{ form.media }}
+{% endblock %}
+
+{% block title %}
+  New notice
+{% endblock %}
+  
+{% block content %}
+  <div class="row column small-12">
+    <h1>New notice</h1>
+    <form action="" method="post">
+      {% csrf_token %}
+      {{form.as_p}}
+      <p>Some markdown is OK</p>
+      <button type="submit" class="button">Create</button>
+    </form>
+  </div>
+{% endblock %}
