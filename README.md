@@ -16,7 +16,7 @@ virtualenv .
 
 ##Run tests
 source bin/activate
-python manage.py test notices alerts core --settings=community.settings.test
+python manage.py test notices alerts core --settings=open_notices.settings.test
 
 ##Start SCSS compiler
 npm install
@@ -24,8 +24,8 @@ $ grunt
 
 ##Start the message queue
 source bin/activate
-celery -A community worker -l info
+celery -A open_notices worker -l info
 
 ##Start the app
 source bin/activate
-python manage.py runserver --settings=community.settings.development
+python manage.py runserver --settings=open_notices.settings.development

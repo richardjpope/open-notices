@@ -1,5 +1,5 @@
 {
-  "name": "community",
+  "name": "open_notices",
   "version": "0.0.0",
   "devDependencies": {
     "grunt": "^1.0.1",

@@ -1,1 +1,1 @@
-web: gunicorn community.wsgi --log-file -
+web: gunicorn open_notices.wsgi --log-file -

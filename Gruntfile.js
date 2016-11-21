@@ -3,11 +3,11 @@ module.exports = function(grunt) {
     pkg: grunt.file.readJSON('package.json'),
     sass: {
       options: {
-          loadPath: ['community/assets/vendor/foundation-sites/scss']
+          loadPath: ['open_notices/assets/vendor/foundation-sites/scss']
         },
       dist: {
         files: {
-          'community/static/css/main.css' : 'community/assets/scss/main.scss'
+          'open_notices/static/css/main.css' : 'open_notices/assets/scss/main.scss'
         }
       }
     },
@@ -16,9 +16,9 @@ module.exports = function(grunt) {
         files: [
           {
             expand: true,
-            cwd: 'community/assets/javascript',
+            cwd: 'open_notices/assets/javascript',
             src: ['*.js'], 
-            dest: 'community/static/javascript', 
+            dest: 'open_notices/static/javascript', 
             filter: 'isFile'
           }
         ]
@@ -30,7 +30,7 @@ module.exports = function(grunt) {
         tasks: ['sass']
       },
       scripts: {
-        files: 'community/assets/**/*.js',
+        files: 'open_notices/assets/**/*.js',
         tasks: ['copy']
       },
     }
