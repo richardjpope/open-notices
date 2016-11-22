@@ -11,6 +11,7 @@ from rest_framework_gis.serializers import GeoFeatureModelSerializer
 from rest_framework_hstore.fields import HStoreField
 from rest_framework.exceptions import MethodNotAllowed
 from notices import models, forms
+from django.conf import settings
 
 class NoticeGeojsonSerializer(GeoFeatureModelSerializer):
     data = HStoreField()
@@ -18,8 +19,14 @@ class NoticeGeojsonSerializer(GeoFeatureModelSerializer):
     class Meta:
         model = models.Notice
         geo_field = "location"
-        fields = ('id', 'location', 'title', 'details', 'data')
+        fields = ('id', 'location', 'title', 'details', 'data''starts_at', 'ends_at', 'timezone')
 
+    def validate(self, attrs):
+        #use the model's validation
+        notice = models.Notice(**attrs)
+        notice.clean()
+        return attrs
+        
     def get_properties(self, instance, fields):
 
         #get the default serialisation
@@ -45,7 +52,13 @@ class NoticeSerializer(ModelSerializer):
 
     class Meta:
         model = models.Notice
-        fields = ('id', 'location', 'title', 'details', 'data')
+        fields = ('id', 'location', 'title', 'details', 'data', 'starts_at', 'ends_at', 'timezone')
+
+    def validate(self, attrs):
+        #use the model's validation
+        notice = models.Notice(**attrs)
+        notice.clean()
+        return attrs
 
 class NoticeList(ListView):
     model = models.Notice
@@ -79,6 +92,11 @@ class NoticeDetailAPI(generics.RetrieveAPIView):
 class NoticeCreate(FormView):
     template_name = 'notices/notice_create.html'
     form_class = forms.CreateNotice
+
+    def get_initial(self):
+        initial = super(NoticeCreate, self).get_initial()
+        initial['timezone'] = default=settings.TIME_ZONE
+        return initial
 
     def form_valid(self, form):
         notice = form.save()

@@ -5946,5 +5946,10 @@ footer {
   padding: 2rem 1rem; }
 .notice .map {
   height: 200px; }
+.notice h2 {
+  font-weight: normal;
+  font-style: italic;
+  color: #7f8c8d;
+  font-size: 100%; }
 
 /*# sourceMappingURL=main.css.map */

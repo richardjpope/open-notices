@@ -79,7 +79,7 @@ WSGI_APPLICATION = 'open_notices.wsgi.application'
 # Internationalization
 # https://docs.djangoproject.com/en/1.9/topics/i18n/
 LANGUAGE_CODE = 'en-gb'
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Europe/London'
 USE_I18N = True
 USE_L10N = True
 USE_TZ = True
@@ -100,6 +100,10 @@ CELERY_RESULT_SERIALIZER = 'json'
 
 AUTH_USER_MODEL = 'core.User'
 
+DATETIME_INPUT_FORMATS = [
+    '%Y-%m-%d %H:%M',
+]
+
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework.authentication.TokenAuthentication',
@@ -113,5 +117,7 @@ REST_FRAMEWORK = {
     ),
     'DEFAULT_PERMISSION_CLASSES': (
         'rest_framework.permissions.IsAuthenticatedOrReadOnly',
-    )
+    ),
+    'DATETIME_INPUT_FORMATS': ['%Y-%m-%dT%H:%M:%S', '%Y-%m-%dT%H:%M', '%Y-%m-%d'],
+    'DATETIME_FORMAT': '%Y-%m-%dT%H:%M:%S'
 }

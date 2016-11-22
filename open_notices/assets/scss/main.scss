@@ -144,4 +144,11 @@ footer {
   .map {
     height:200px;
   }
+
+  h2 {
+    font-weight:normal;
+    font-style: italic;
+    color: $dark-gray;
+    font-size:$global-font-size;
+  }
 }
