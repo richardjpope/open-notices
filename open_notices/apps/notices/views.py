@@ -99,13 +99,18 @@ class NoticeCreate(FormView):
         return initial
 
     def form_valid(self, form):
-        notice = form.save()
+        notice = form.save(commit=False)
+        notice.user = self.request.user
+        notice.save()
         return redirect(notice)
 
 
 class NoticeCreateAPI(generics.CreateAPIView):
 
     serializer_class = NoticeSerializer
+
+    def perform_create(self, serializer):
+        notice = serializer.save(user=self.request.user)
 
     def post(self, request, format='json', *args, **kwargs):
         #Only JSON accepted for edit/create/delete

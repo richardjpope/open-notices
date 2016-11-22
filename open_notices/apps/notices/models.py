@@ -6,7 +6,7 @@ from django.core.exceptions import ValidationError
 from django.dispatch import receiver
 from django.db.models.signals import pre_save, post_save
 from django.contrib.sessions.models import Session
-
+from django.conf import settings
 
 def _get_timezones_as_tuple():
     result = []
@@ -16,6 +16,7 @@ def _get_timezones_as_tuple():
 
 class Notice(models.Model):
     title = models.CharField(max_length=50)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL)
     details = models.TextField(blank=True, null=True)
     location = models.GeometryField()
     starts_at = models.DateTimeField()
