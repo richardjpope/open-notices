@@ -5893,6 +5893,13 @@ header #menu_collapse {
 
 main {
   min-height: 600px; }
+  main h1 {
+    padding-top: 1rem; }
+    main h1 small {
+      display: block;
+      padding-top: 1rem;
+      padding-bottom: 1rem;
+      font-size: 50%; }
 
 footer {
   font-family: "Arvo", serif;
@@ -5903,6 +5910,9 @@ footer {
 .button {
   font-family: "Arvo", serif;
   font-weight: bold; }
+
+label {
+  font-size: 125%; }
 
 .messages {
   padding-left: 0;
@@ -5951,5 +5961,27 @@ footer {
   font-style: italic;
   color: #7f8c8d;
   font-size: 100%; }
+
+table.tag-input td {
+  padding: 0;
+  border-collapse: collapse;
+  text-align: left;
+  border: solid 1px #bdc3c7; }
+table.tag-input tr {
+  text-align: left;
+  vertical-align: top;
+  background-color: transparent; }
+table.tag-input .key {
+  width: 30%; }
+table.tag-input .value {
+  width: 70%; }
+table.tag-input textarea {
+  border: none;
+  height: 5rem;
+  margin: 0; }
+table.tag-input input {
+  margin: 0;
+  border: none;
+  height: 5rem; }
 
 /*# sourceMappingURL=main.css.map */

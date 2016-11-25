@@ -1,23 +1,18 @@
-<div class="row">
-    <div class="columns small-12">
-      <fieldset>
-        <legend>Fields</legend>
-        {% for k, v in value %}
-          <div class="row">
-            <div class="small-1 columns">
-              <label for="{{name}}_key_{{forloop.counter0}}" class="right">Key</label>
-            </div>
-            <div class="small-5 columns">
-              <input name="{{name}}_key_{{forloop.counter0}}" id="{{name}}_key_{{forloop.counter0}}" type="text" value="{{k}}">
-            </div>
-            <div class="small-1 columns">
-              <label for="{{name}}_key_{{forloop.counter0}}" class="right">Value</label>
-            </div>
-            <div class="small-5 columns">
-              <input name="{{name}}_value_{{forloop.counter0}}" id="{{name}}_value_{{forloop.counter0}}" type="text" value="{{v}}">
-            </div>
-          </div>
-        {% endfor %}
-      </fieldset>
-    </div>
-  </div>
+<table class="tag-input">
+  <tr>
+    <th class="key">Name</th>
+    <th class="value">Value</th>
+  </tr>
+  {% for k, v in value %}
+    <tr>
+      <td class="key">
+        <label for="{{name}}_key_{{forloop.counter0}}">Name for tag {{forloop.counter}}</label>
+        <input pattern="[a-z0-9]+" name="{{name}}_key_{{forloop.counter0}}" id="{{name}}_key_{{forloop.counter0}}" type="text" value="{{k}}">
+      </td>
+      <td class="value">
+        <label for="{{name}}_value_{{forloop.counter0}}">Value for tag {{forloop.counter}}</label>
+        <textarea name="{{name}}_value_{{forloop.counter0}}" id="{{name}}_value_{{forloop.counter0}}">{{v}}</textarea>
+      </td>
+    </tr>
+  {% endfor %}
+</table>

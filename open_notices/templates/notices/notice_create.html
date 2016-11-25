@@ -1,22 +1,33 @@
 {% extends "base.html" %}
+{% load staticfiles %}
+{% load foundation_formtags %}
 {% load markdown_deux_tags %}
 
 {% block head %}
   {{ form.media }}
+  <script type="text/javascript" src="{% static 'javascript/create-notice.js' %}"></script>
 {% endblock %}
 
+
 {% block title %}
-  New notice
+  
 {% endblock %}
   
 {% block content %}
   <div class="row column small-12">
-    <h1>New notice</h1>
+    <h1><small>(Step 1 of 3)</small> Notice information</h1>
     <form action="" method="post">
       {% csrf_token %}
-      {{form.as_p}}
-      <p>Some markdown is OK</p>
-      <button type="submit" class="button">Create</button>
+      {% render_field form.title %}
+      {% render_field form.details %}
+      <!-- {% render_field form.starts_at %}
+      {% render_field form.ends_at %} -->
+      <label>Tags</label>
+      <small>{{form.tags.help_text}}</small>
+      {{form.tags}}
+      <div>
+        <button type="submit" class="button expanded">Create</button>
+      </div>
     </form>
   </div>
 {% endblock %}

@@ -20,11 +20,11 @@ class CreateNotice(forms.ModelForm):
 
     class Meta:
         model = models.Notice
-        fields = ['location', 'title', 'details', 'data', 'starts_at', 'ends_at', 'timezone']
+        fields = ['location', 'title', 'details', 'tags', 'starts_at', 'ends_at', 'timezone']
         widgets = {
             'location': forms.OSMWidget(attrs={'map_width': 800, 'map_height': 500}),
             'details': forms.Textarea,
-            'data': DataWidget,
+            'tags': DataWidget,
             'starts_at': forms.TextInput(attrs={'type': 'datetime'}),
             'ends_at': forms.TextInput(attrs={'type': 'datetime'}),
         }

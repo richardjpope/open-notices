@@ -1,9 +1,10 @@
-from django.shortcuts import redirect
+from django.shortcuts import redirect, reverse
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import FormView
+from django.core.serializers import serialize
 from rest_framework import generics 
 from rest_framework.serializers import ModelSerializer
 from rest_framework.response import Response
@@ -19,7 +20,7 @@ class NoticeGeojsonSerializer(GeoFeatureModelSerializer):
     class Meta:
         model = models.Notice
         geo_field = "location"
-        fields = ('id', 'location', 'title', 'details', 'data''starts_at', 'ends_at', 'timezone')
+        fields = ('id', 'location', 'title', 'details', 'tags', 'starts_at', 'ends_at', 'timezone')
 
     def validate(self, attrs):
         #use the model's validation
@@ -28,14 +29,15 @@ class NoticeGeojsonSerializer(GeoFeatureModelSerializer):
         return attrs
         
     def get_properties(self, instance, fields):
-
+        import collections
         #get the default serialisation
         properties = super(NoticeGeojsonSerializer, self).get_properties(instance, fields)
+        # properties = dict(properties)
 
         #extract the hstore field
-        hstore_field_name = 'data'
+        hstore_field_name = 'tags'
         hstore_data = None
-        for key, value  in properties.items():
+        for key, value  in properties.copy().items():
             if key == hstore_field_name:
                 hstore_data = value
                 del properties[key]
@@ -48,11 +50,11 @@ class NoticeGeojsonSerializer(GeoFeatureModelSerializer):
         return properties
 
 class NoticeSerializer(ModelSerializer):
-    data = HStoreField()
+    tags = HStoreField()
 
     class Meta:
         model = models.Notice
-        fields = ('id', 'location', 'title', 'details', 'data', 'starts_at', 'ends_at', 'timezone')
+        fields = ('id', 'location', 'title', 'details', 'tags', 'starts_at', 'ends_at', 'timezone')
 
     def validate(self, attrs):
         #use the model's validation
@@ -103,7 +105,6 @@ class NoticeCreate(FormView):
         notice.user = self.request.user
         notice.save()
         return redirect(notice)
-
 
 class NoticeCreateAPI(generics.CreateAPIView):
 

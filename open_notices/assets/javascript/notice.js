@@ -1,5 +1,5 @@
 $(document).ready(function(){
-  
+
   //map
   geoJSONFormat = new ol.format.GeoJSON();
   source = new ol.source.Vector({

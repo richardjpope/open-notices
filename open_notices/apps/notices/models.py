@@ -15,15 +15,15 @@ def _get_timezones_as_tuple():
     return result
 
 class Notice(models.Model):
-    title = models.CharField(max_length=50)
+    title = models.CharField(max_length=50, help_text="e.g. 'Application for alcohol licence - House of Wine' or 'Westlow Food Bank - items required'")
     user = models.ForeignKey(settings.AUTH_USER_MODEL)
-    details = models.TextField(blank=True, null=True)
+    details = models.TextField(blank=True, null=True, help_text="You can use markdown here")
     location = models.GeometryField()
     starts_at = models.DateTimeField()
     ends_at = models.DateTimeField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    data = HStoreField(blank=True, null=True)
+    tags = HStoreField(blank=True, null=True, help_text="e.g. address, application type, company name")
     timezone = models.CharField(max_length=40, choices=_get_timezones_as_tuple(), blank=False)
 
     objects = models.GeoManager()

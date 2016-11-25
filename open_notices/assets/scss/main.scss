@@ -74,6 +74,15 @@ header {
 
 main {
   min-height:600px;
+  h1 {
+    padding-top:$global-padding;
+    small {
+      display:block;
+      padding-top:$global-padding;
+      padding-bottom:$global-padding;
+      font-size:50%;
+    }
+  }
 }
 
 footer {
@@ -86,6 +95,10 @@ footer {
 .button {
   font-family: $header-font-family;
   font-weight:bold;
+}
+
+label {
+  font-size:$lead-font-size;
 }
 
 .messages {
@@ -151,4 +164,37 @@ footer {
     color: $dark-gray;
     font-size:$global-font-size;
   }
+}
+
+table.tag-input {
+  td {
+    padding:0;
+    border-collapse: collapse;
+    text-align:left;
+    border:solid 1px $medium-gray;
+  }
+
+  tr {
+    text-align: left;
+    vertical-align: top;
+    background-color: transparent;
+  }
+  .key {
+    width:30%;
+  }
+  .value {
+    width:70%;
+  }
+  textarea {
+    border:none;
+    height:5rem;
+    margin:0;
+  }
+  input {
+    margin:0;
+    border:none;
+    height:5rem;
+
+  }
+
 }

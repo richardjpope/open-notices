@@ -27,6 +27,15 @@ class NoticeModelTestCase(TestCase):
             notice.user = self.user
             notice.save()
 
+class NoticeAPIGeojsonTestCase(TestCase):
+
+    def setUp(self):
+        self.client = APIClient()
+
+    def test_list(self):
+        response = self.client.get('/notices.geojson')
+        self.assertEqual(response.status_code, 200)
+
 class NoticeAPITestCase(TestCase):
 
     def setUp(self):
@@ -37,7 +46,7 @@ class NoticeAPITestCase(TestCase):
         self.user.save()
         Token.objects.create(user=self.user)
 
-    def get_valid_data(slef):
+    def get_valid_data(self):
         return {'title': 'test title', 'location': {"type":"Point","coordinates":[-0.09430885313565737,51.43326585306407]}, 'data': [],"starts_at":"2016-01-01T11:00:00","ends_at":"2016-01-02T12:00:00", "timezone": "Europe/London"}
 
     def test_create_get_not_found(self):
