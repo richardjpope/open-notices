@@ -2,7 +2,7 @@ $(document).ready(function(){
 
   //rotate intro text
   intro_text_example_count = 0;
-  types = ['planning applications', 'licensing notices', 'parking suspensions', 'bin collections'];
+  types = ['planning applications', 'licensing notices', 'parking suspensions', 'bin collections', 'food bank requirements'];
   setInterval(function(){
     $('#intro-text-examples').fadeOut(300, function(){
       $('#intro-text-examples').html(types[intro_text_example_count]);  
