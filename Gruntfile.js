@@ -11,14 +11,25 @@ module.exports = function(grunt) {
         }
       }
     },
+    cssmin: {
+      target: {
+        files: [{
+          expand: true,
+          cwd: 'open_notices/static/css/',
+          src: ['*.css', '!*.min.css'],
+          dest: 'open_notices/static/css/',
+          ext: '.min.css'
+        }]
+      }
+    },
     copy: {
       target: {
         files: [
           {
             expand: true,
             cwd: 'open_notices/assets/javascript',
-            src: ['*.js'], 
-            dest: 'open_notices/static/javascript', 
+            src: ['*.js'],
+            dest: 'open_notices/static/javascript',
             filter: 'isFile'
           }
         ]
@@ -27,7 +38,7 @@ module.exports = function(grunt) {
     watch: {
       css: {
         files: '**/*.scss',
-        tasks: ['sass']
+        tasks: ['sass', 'cssmin']
       },
       scripts: {
         files: 'open_notices/assets/**/*.js',
@@ -36,6 +47,7 @@ module.exports = function(grunt) {
     }
   });
   grunt.loadNpmTasks('grunt-contrib-sass');
+  grunt.loadNpmTasks('grunt-contrib-cssmin');
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-contrib-copy')
   grunt.registerTask('default',['watch']);
