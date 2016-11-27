@@ -20,7 +20,7 @@
     <div class="row columns  medium-10 large-6">
       <p>{{notice.details|markdown}}</p>
       <table>
-        {% for key, value in notice.data.items %}
+        {% for key, value in notice.tags.items %}
           <tr>
             <th>{{key}}</th>
             <td>{{value}}</td>
