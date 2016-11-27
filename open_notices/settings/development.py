@@ -23,5 +23,3 @@ DATABASES = {
 INSTALLED_APPS += [
   "sslserver",
 ]
-
-# BROKER_URL = 'redis://localhost:6379/0'

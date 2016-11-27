@@ -23,9 +23,17 @@ npm install
 $ grunt
 
 ##Start the message queue
+rabbitmq-server
+
 source bin/activate
+export  DJANGO_SETTINGS_MODULE=open_notices.settings.development
 celery -A open_notices worker -l info
 
 ##Start the app
 source bin/activate
 python manage.py runsslserver --settings=open_notices.settings.development
+
+#Send email alerts
+
+source bin/activate
+python manage.py sendalerts --settings=open_notices.settings.development
