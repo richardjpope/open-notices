@@ -137,7 +137,6 @@ class NoticeCreateDatetime(FormView):
     form_class = forms.CreateNoticeDatetime
 
     def dispatch(self, request, *args, **kwargs):
-        print(self.request.session['new-notice'])
         if not request.session.get('new-notice', False):
             return redirect(reverse('notice-create'))
         return super(NoticeCreateDatetime, self).dispatch(self.request, *args, **kwargs)
