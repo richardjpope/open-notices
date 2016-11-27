@@ -2,7 +2,7 @@ $(document).ready(function(){
 
   //rotate intro text
   intro_text_example_count = 0;
-  types = ['planning applications', 'licensing notices', 'parking suspensions', 'bin collections'];
+  types = ['planning applications', 'licensing notices', 'parking suspensions', 'bin collections', 'food bank requirements'];
   setInterval(function(){
     $('#intro-text-examples').fadeOut(300, function(){
       $('#intro-text-examples').html(types[intro_text_example_count]);  
@@ -26,7 +26,7 @@ $(document).ready(function(){
   var vector = new ol.layer.Vector({
     source: new ol.source.Vector({
         format: new ol.format.GeoJSON(),
-        url: 'http://localhost:8000/notices.geojson'
+        url: '/notices.geojson'
     }),
     style: new ol.style.Style({
         stroke: new ol.style.Stroke({
@@ -103,6 +103,7 @@ $(document).ready(function(){
       popup.setPosition(centroid);
       map.beforeRender(pan);
       map.getView().setCenter(centroid);
+
     } else {
       $(element).hide();
     }

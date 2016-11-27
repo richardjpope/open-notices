@@ -26,7 +26,7 @@ $(document).ready(function(){
   var vector = new ol.layer.Vector({
     source: new ol.source.Vector({
         format: new ol.format.GeoJSON(),
-        url: 'http://localhost:8000/notices.geojson'
+        url: '/notices.geojson'
     }),
     style: new ol.style.Style({
         stroke: new ol.style.Stroke({
