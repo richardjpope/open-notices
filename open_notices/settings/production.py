@@ -1,15 +1,20 @@
 import dj_database_url
 from open_notices.settings.base import *
 
-# SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DEBUG', False)
-
-# SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ.get('SECRET_KEY', None)
-
 ALLOWED_HOSTS = []
 
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+INSTALLED_APPS += [
+  "anymail",
+]
+
+ANYMAIL = {
+    "MAILGUN_API_KEY": os.environ.get('MAILGUN_API_KEY', None),
+}
+
+
+EMAIL_BACKEND = "anymail.backends.mailgun.MailgunBackend"
 EMAIL_FROM_ADDRESS = 'mail@localhost'
 
 # Database

@@ -6,6 +6,7 @@
 {% block content %}
   <div class="row column small-12">
     <h1>Alerts</h1>
+    <a href="{% url 'alert-create' %}" class="button">Create an alert</a>
     <ul>
     {% for alert in object_list %}
         <li>

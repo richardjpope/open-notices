@@ -4,10 +4,12 @@ billiard==3.3.0.23
 celery==3.1.24
 dj-database-url==0.4.1
 Django==1.10.2
+django-anymail==0.6.1
 django-appconf==1.0.2
 django-foundation-formtags==0.0.7
 django-hstore==1.4.2
 django-markdown-deux==1.0.5
+django-sslserver==0.19
 djangorestframework==3.5.3
 djangorestframework-csv==2.0.0
 djangorestframework-gis==0.10.1
@@ -26,6 +28,7 @@ pytz==2016.7
 PyYAML==3.11
 rcssmin==1.0.6
 repoze.lru==0.6
+requests==2.12.1
 rjsmin==1.0.12
 rlp==0.4.3
 six==1.10.0
