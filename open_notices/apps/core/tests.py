@@ -15,6 +15,13 @@ class APITokenTestCase(TestCase):
         self.user.set_password('notasecret')
         self.user.save()
 
+    def test_create_account_redirect_safe(self):
+        unsafe_url = '/create-account?next=http://example.org'
+        data = {'email': 'newuser@example.org', 'password': 'notasecret'}
+        response = self.client.post(unsafe_url, data, follow=True)
+        self.assertRedirects(response, '/')
+
+
     def test_unauthenticated(self):
         response = self.client.get('/api')
         self.assertContains(response, "Sign in</a> to create an API key", 1, 200)
