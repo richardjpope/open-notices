@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% load foundation_formtags %}
+{% block title %}
+  Create an account
+{% endblock %}
+
+{% block content %}
+  <div class="row column small-12">
+    <h1>Create an account</h1>
+    <form action="" method="post">
+      {% csrf_token %}
+      {{form|as_foundation}}
+      <button type="submit" class="button expanded">Create</button>
+    </form>
+  </div>
+{% endblock %}

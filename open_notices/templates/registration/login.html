@@ -8,7 +8,15 @@
     <form method="post">
       {% csrf_token %}
       {{ form|as_foundation }}
-      <button type="submit" class="button">Login</button>
+      <button type="submit" class="button expanded">Sign in</button>
     </form>
+    <p>
+      {% if request.GET.next %}
+      
+      <a href="{% url 'register' %}?next={{ request.GET.next }}">Or create an account</a>
+      {% else %}
+        <a href="{% url 'register' %}">Or create an account</a>
+      {% endif %}
+    </p>
   </div>
 {% endblock %}
