@@ -7,4 +7,5 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         for alert in Alert.objects.all():
+            print(".")
             send_alert.delay(alert.id)

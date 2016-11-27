@@ -5953,19 +5953,25 @@ label {
 
 .notice header {
   text-align: center;
-  padding: 2rem 1rem; }
+  background-color: #2ecc71;
+  color: #fefefe;
+  padding: 2rem 1rem;
+  margin-top: 2rem;
+  margin-bottom: 3rem; }
 .notice .map {
   height: 200px; }
 .notice h2 {
   font-weight: normal;
   font-style: italic;
-  color: #7f8c8d;
   font-size: 100%; }
+.notice th {
+  text-align: left; }
 
+table.tag-input th {
+  text-align: left; }
 table.tag-input td {
   padding: 0;
   border-collapse: collapse;
-  text-align: left;
   border: solid 1px #bdc3c7; }
 table.tag-input tr {
   text-align: left;

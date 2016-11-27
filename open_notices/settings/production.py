@@ -14,7 +14,7 @@ ANYMAIL = {
 }
 
 EMAIL_BACKEND = "anymail.backends.mailgun.MailgunBackend"
-EMAIL_FROM_ADDRESS = 'mail@localhost'
+EMAIL_FROM_ADDRESS = os.environ.get('EMAIL_FROM_ADDRESS', None)
 
 # Database
 DATABASES = {

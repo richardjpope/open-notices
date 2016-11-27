@@ -152,7 +152,11 @@ label {
 .notice {
   header {
     text-align: center;
+    background-color:$primary-color;
+    color:$white;
     padding:$global-padding * 2 $global-padding;
+    margin-top:$global-margin * 2;
+    margin-bottom:$global-margin * 3;
   }
   .map {
     height:200px;
@@ -161,16 +165,21 @@ label {
   h2 {
     font-weight:normal;
     font-style: italic;
-    color: $dark-gray;
     font-size:$global-font-size;
+  }
+
+  th {
+    text-align: left;
   }
 }
 
 table.tag-input {
+  th {
+    text-align:left;
+  }
   td {
     padding:0;
     border-collapse: collapse;
-    text-align:left;
     border:solid 1px $medium-gray;
   }
 
