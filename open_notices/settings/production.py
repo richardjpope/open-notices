@@ -13,11 +13,8 @@ ANYMAIL = {
     "MAILGUN_API_KEY": os.environ.get('MAILGUN_API_KEY', None),
 }
 
-
 EMAIL_BACKEND = "anymail.backends.mailgun.MailgunBackend"
 EMAIL_FROM_ADDRESS = 'mail@localhost'
-
-
 
 # Database
 DATABASES = {

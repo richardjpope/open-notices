@@ -5,7 +5,7 @@ You will need these things:
 Python
 virtualenv
 Postgis (needs to be running)
-RabitMQ (needs to be running to send emails)
+Redis (needs to be running to send emails)
 Grunt
 
 #todo: instructions for setting up database (hstore and postgis)
@@ -23,7 +23,7 @@ npm install
 $ grunt
 
 ##Start the message queue
-rabbitmq-server
+redis-server
 
 source bin/activate
 export  DJANGO_SETTINGS_MODULE=open_notices.settings.development
