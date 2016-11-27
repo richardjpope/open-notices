@@ -98,7 +98,7 @@ class AlertCreateUserView(FormView):
         alert.save()
 
         #create a success message
-        messages.add_message(self.request, messages.SUCCESS, 'success_message')
+        messages.add_message(self.request, messages.SUCCESS, success_message)
 
         return redirect(reverse('alert-list'))
 

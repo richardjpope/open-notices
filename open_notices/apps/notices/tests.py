@@ -121,7 +121,7 @@ class NoticeTestCase(TestCase):
     def test_create_empty(self):
         self.client.login(email='existinguser@example.org', password='notasecret')
         response = self.client.post('/notices/new')
-        self.assertContains(response, "This field is required", 4, 200)
+        self.assertContains(response, "This field is required", 3, 200)
         self.assertContains(response, "No geometry value provided", 1, 200)
 
     def test_create_valid(self):

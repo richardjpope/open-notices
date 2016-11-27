@@ -28,4 +28,4 @@ celery -A open_notices worker -l info
 
 ##Start the app
 source bin/activate
-python manage.py runserver --settings=open_notices.settings.development
+python manage.py runsslserver --settings=open_notices.settings.development

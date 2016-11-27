@@ -1,0 +1,267 @@
+<label id="{{id}}-label">{{id}}</label>
+<textarea id="{{ id }}" class="vSerializedField required" cols="150" rows="10" name="{{ name }}">{{ serialized }}</textarea>
+<div id="map-controls"></div>
+<div id="map" class="map"></div>
+<style>
+  .clear-selection {
+    top: 0.5em;
+    right: .5em;
+  }
+  .clear-selection button {
+    width: auto;
+    padding-left:0.5em;
+    padding-right:0.5em;
+  }
+  .geolocation {
+    top: 4em;
+    right: .5em;
+  }
+  .geolocation button {
+    width: auto;
+    padding-left:0.5em;
+    padding-right:0.5em;
+  }
+ .draw-point {
+    top: 8em;
+    right: .5em;
+  }
+  .draw-point button {
+    width: auto;
+    padding-left:0.5em;
+    padding-right:0.5em;
+  }
+
+   .draw-linestring {
+    top: 11em;
+    right: .5em;
+  }
+  .draw-linestring button {
+    width: auto;
+    padding-left:0.5em;
+    padding-right:0.5em;
+  }
+   .draw-polygon {
+    top: 14em;
+    right: .5em;
+  }
+  .draw-polygon button {
+    width: auto;
+    padding-left:0.5em;
+    padding-right:0.5em;
+  }
+ /* .ol-touch .clear-selection {
+    top: 0.5em;
+  }
+
+  .ol3-geocoder-container {
+    width:100%;
+    top:10px;
+  }
+  .ol3-geocoder-search {
+    width:100%;
+  } 
+  .ol3-geocoder-search button {
+    display:none;
+  }
+
+  .ol3-geocoder-input-search {
+    top:0;
+    width:98%;
+    left:5px;
+    right:10px;
+  }
+
+  ul.ol3-geocoder-result {
+    left:0;
+    width:98%;
+    box-shadow: 0 1px 7px rgba(0,0,0,0.2);
+  }*/
+
+</style>
+ <script>
+    var draw;
+
+    DrawControl = function(opt_options) {
+
+        options = opt_options || {};
+
+        button = $('<button type="button">Draw ' + options['type'].toLowerCase() +'</button>').get()[0];
+
+        var this_ = this;
+        var handleDrawLocation = function(event) {
+            this_.getMap().startDrawing(event.data['type']);
+        };
+        
+        $(button).on('click',  options, handleDrawLocation);
+        $(button).on('touchstart', options, handleDrawLocation);
+
+        control = $('<div class="draw-' + options['type'].toLowerCase() + ' ol-unselectable ol-control"></div>')
+        control.append(button);
+
+        ol.control.Control.call(this, {
+          element: control.get()[0],
+          target: options.target
+        });
+
+      };
+    ol.inherits(DrawControl, ol.control.Control);
+
+    ClearSelectionControl = function(opt_options) {
+
+        options = opt_options || {};
+
+        button = document.createElement('button');
+        button.innerHTML = 'Clear';
+        button.setAttribute('type', 'button');
+
+        var this_ = this;
+        var handleClearSelection = function() {
+          layer = this_.getMap().getLayers().getArray()[1]
+          source = layer.getSource();
+          source.clear();
+          return false;
+        };
+
+        button.addEventListener('click', handleClearSelection, false);
+        button.addEventListener('touchstart', handleClearSelection, false);
+
+        var element = document.createElement('div');
+        element.className = 'clear-selection ol-unselectable ol-control';
+        element.appendChild(button);
+
+        ol.control.Control.call(this, {
+          element: element,
+          target: options.target
+        });
+
+      };
+    ol.inherits(ClearSelectionControl, ol.control.Control);
+
+    GeolocationControl = function(opt_options) {
+
+        options = opt_options || {};
+
+        button = document.createElement('button');
+        button.innerHTML = 'Locate me';
+        button.setAttribute('type', 'button');
+
+        var this_ = this;
+        var handleGeolocaiton = function() {
+            this_.getMap().geolocate();
+        };
+
+        button.addEventListener('click', handleGeolocaiton, false);
+        button.addEventListener('touchstart', handleGeolocaiton, false); 
+
+        var element = document.createElement('div');
+        element.className = 'geolocation ol-unselectable ol-control';
+        element.appendChild(button);
+
+        ol.control.Control.call(this, {
+          element: element,
+          target: options.target
+        });
+
+      };
+      ol.inherits(GeolocationControl, ol.control.Control);
+
+
+
+    //Hide the text area
+    document.getElementById('{{ id }}').setAttribute("hidden", true);
+    document.getElementById('{{id}}-label').setAttribute("hidden", true);
+
+    //Layers
+    raster = new ol.layer.Tile({source: new ol.source.OSM()});
+    source = new ol.source.Vector({wrapX: false});
+    vector = new ol.layer.Vector({source: source});
+
+    //map
+    var map = new ol.Map({
+        controls: ol.control.defaults({
+            attributionOptions: ({collapsible: false})
+            }).extend([
+          new ClearSelectionControl(),
+          new GeolocationControl(),
+          new DrawControl({'type': 'Point'}),
+          new DrawControl({'type': 'Polygon'}),
+          new DrawControl({'type': 'LineString'})
+        ]),
+        layers: [raster, vector],
+        interactions: ol.interaction.defaults({mouseWheelZoom:false}),
+        target: 'map',
+        view: new ol.View({
+          center: [0, 4600000],
+          zoom: 2
+        })
+    });
+
+    //Geolocation
+    geolocation = new ol.Geolocation({
+            projection: map.getView().getProjection()
+      });
+
+    map.geolocate = function(){
+      
+        geolocation.setTracking(true);
+        geolocation.once('change', function() {
+          map.getView().setCenter(geolocation.getPosition());
+          map.getView().setZoom(17);
+          geolocation.setTracking(false);
+      });
+
+      geolocation.on('error', function(error) {
+        loading.hide();
+        alert('Unable to get your location');
+      });
+    };
+
+    map.startDrawing = function(value){
+        if (value !== 'None') {
+          this.removeInteraction(draw);
+          draw = new ol.interaction.Draw({
+            source: source,
+            type: (value)
+          });
+          this.addInteraction(draw);
+          draw.on('drawstart', function (event) {
+            source.clear();
+          });
+        }
+    }
+
+    map.geolocate();
+
+    //drawing
+    // interaction = new ol.interaction.Draw({source: source, type: 'Polygon',freehand: true});
+    // interaction.on('drawstart', function (event) {
+    //     source.clear();
+    // });
+    // map.addInteraction(interaction);
+
+    var geocoder = new Geocoder('nominatim', {
+      provider: 'pelias',
+      key: 'mapzen-VoiExtQ',
+      lang: 'en-GB', //en-US, fr-FR
+      placeholder: 'Search for ...',
+      limit: 5,
+      keepOpen: false,
+      autoComplete: true,
+      autoCompleteMinLength: 5
+    });
+    map.addControl(geocoder);
+
+    geocoder.on('addresschosen', function(evt){
+      overlay.setPosition(evt.coordinate);
+    });
+
+    //store the geojson
+    source.on('addfeature', function(){
+        var writer = new ol.format.GeoJSON();
+        var features = source.getFeatures();
+        document.getElementById('{{ id }}').value = writer.writeGeometry(features[0].getGeometry());
+    });
+
+
+    
+    </script>

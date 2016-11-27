@@ -1,5 +1,7 @@
+import json
 from django.shortcuts import redirect, reverse
 from django.utils.decorators import method_decorator
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
@@ -15,7 +17,7 @@ from notices import models, forms
 from django.conf import settings
 
 class NoticeGeojsonSerializer(GeoFeatureModelSerializer):
-    data = HStoreField()
+    tags = HStoreField()
 
     class Meta:
         model = models.Notice
@@ -95,16 +97,67 @@ class NoticeCreate(FormView):
     template_name = 'notices/notice_create.html'
     form_class = forms.CreateNotice
 
-    def get_initial(self):
-        initial = super(NoticeCreate, self).get_initial()
-        initial['timezone'] = default=settings.TIME_ZONE
-        return initial
+    def dispatch(self, request, *args, **kwargs):
+        if request.session.get('new-notice', False):
+            self.request.session.pop('new-notice')
+        return super(NoticeCreate, self).dispatch(self.request, *args, **kwargs)
 
     def form_valid(self, form):
+
         notice = form.save(commit=False)
-        notice.user = self.request.user
-        notice.save()
-        return redirect(notice)
+
+        serializer = NoticeSerializer(notice)
+        self.request.session['new-notice'] = serializer.data
+
+        return redirect(reverse('notice-create-location'))
+
+@method_decorator(login_required, name='dispatch')
+class NoticeCreateLocation(FormView):
+    template_name = 'notices/notice_create_location.html'
+    form_class = forms.CreateNoticeLocation
+
+    def dispatch(self, request, *args, **kwargs):
+        if not request.session.get('new-notice', False):
+            return redirect(reverse('notice-create'))
+        return super(NoticeCreateLocation, self).dispatch(self.request, *args, **kwargs)
+
+    def form_valid(self, form):
+
+        notice = form.save(commit=False)
+        serializer = NoticeSerializer(notice)
+        session_data = self.request.session['new-notice']
+        session_data['location'] = serializer.data['location']
+        self.request.session['new-notice'] = session_data
+
+        return redirect(reverse('notice-create-datetime'))
+
+@method_decorator(login_required, name='dispatch')
+class NoticeCreateDatetime(FormView):
+    template_name = 'notices/notice_create_datetime.html'
+    form_class = forms.CreateNoticeDatetime
+
+    def dispatch(self, request, *args, **kwargs):
+        print(self.request.session['new-notice'])
+        if not request.session.get('new-notice', False):
+            return redirect(reverse('notice-create'))
+        return super(NoticeCreateDatetime, self).dispatch(self.request, *args, **kwargs)
+
+    def form_valid(self, form):
+        #add the dates to the existing data in the sessions
+        notice = form.save(commit=False)
+        serializer = NoticeSerializer(notice)
+        session_data = self.request.session['new-notice']
+        session_data['starts_at'] = serializer.data['starts_at']
+        session_data['ends_at'] = serializer.data['ends_at']
+        session_data['timezone'] = serializer.data['timezone']
+
+        #save
+        serializer = NoticeSerializer(data=session_data)
+        if serializer.is_valid():
+            notice = serializer.save(user=self.request.user)
+            return redirect(notice)
+        else:
+            messages.add_message(self.request, messages.SUCCESS, 'Sorry, something went wrong')
 
 class NoticeCreateAPI(generics.CreateAPIView):
 

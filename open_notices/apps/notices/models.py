@@ -23,7 +23,7 @@ class Notice(models.Model):
     ends_at = models.DateTimeField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    tags = HStoreField(blank=True, null=True, help_text="e.g. address, application type, company name")
+    tags = HStoreField(blank=True, null=True, help_text="e.g. type:planning application, organisation:House of Wine, items-required:beans,tampons,toothpaste")
     timezone = models.CharField(max_length=40, choices=_get_timezones_as_tuple(), blank=False)
 
     objects = models.GeoManager()

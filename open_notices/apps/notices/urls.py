@@ -5,6 +5,8 @@ from . import views
 urlpatterns = [
     url(r'^/?$', views.NoticeList.as_view(), name='notice-list'),
     url(r'^/new/?$', views.NoticeCreate.as_view(), name='notice-create'),
+    url(r'^/new/location/?$', views.NoticeCreateLocation.as_view(), name='notice-create-location'),
+    url(r'^/new/datetime/?$', views.NoticeCreateDatetime.as_view(), name='notice-create-datetime'),    
     url(r'^/(?P<pk>[0-9]+)/?$', views.NoticeDetail.as_view(), name='notice-detail'),
 ]
 

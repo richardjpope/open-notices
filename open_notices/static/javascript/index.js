@@ -103,7 +103,6 @@ $(document).ready(function(){
       popup.setPosition(centroid);
       map.beforeRender(pan);
       map.getView().setCenter(centroid);
-
     } else {
       $(element).hide();
     }

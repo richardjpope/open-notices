@@ -14,16 +14,14 @@
   
 {% block content %}
   <div class="row column small-12">
-    <h1><small>(Step 1 of 3)</small> Description and tags</h1>
+    <h1><small>(Step 2 of 3)</small> Notice information</h1>
     <form action="" method="post">
       {% csrf_token %}
-      {% render_field form.title %}
-      {% render_field form.details %}
-      <label>Tags</label>
-      <small>{{form.tags.help_text}}</small>
-      {{form.tags}}
+      {% render_field form.starts_at %}
+      {% render_field form.ends_at %}
+      {% render_field form.timezone %}
       <div>
-        <button type="submit" class="button expanded">Next</button>
+        <button type="submit" class="button expanded">Create</button>
       </div>
     </form>
   </div>

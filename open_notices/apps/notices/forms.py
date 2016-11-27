@@ -2,7 +2,7 @@ import pytz
 from django.utils import timezone
 from django.contrib.gis import forms
 from django.contrib.postgres.forms import HStoreField
-from notices.widgets import DataWidget
+from notices.widgets import DataWidget, NoticeAreaWidget
 from notices import models
 from django.conf import settings
 
@@ -20,17 +20,33 @@ class CreateNotice(forms.ModelForm):
 
     class Meta:
         model = models.Notice
-        fields = ['location', 'title', 'details', 'tags', 'starts_at', 'ends_at', 'timezone']
+        fields = ['title', 'details', 'tags']        
         widgets = {
-            'location': forms.OSMWidget(attrs={'map_width': 800, 'map_height': 500}),
             'details': forms.Textarea,
             'tags': DataWidget,
+        }
+
+class CreateNoticeLocation(forms.ModelForm):
+
+    class Meta:
+        model = models.Notice
+        fields = ['location']
+        widgets = {
+            'location': NoticeAreaWidget,
+        }
+
+class CreateNoticeDatetime(forms.ModelForm):
+
+    class Meta:
+        model = models.Notice
+        fields = ['starts_at', 'ends_at', 'timezone']        
+        widgets = {
             'starts_at': forms.TextInput(attrs={'type': 'datetime'}),
             'ends_at': forms.TextInput(attrs={'type': 'datetime'}),
         }
 
     def clean(self):
-        cleaned_data = super(CreateNotice, self).clean()
+        cleaned_data = super(CreateNoticeDatetime, self).clean()
         notice_timezone = cleaned_data.get('timezone', False)
         if notice_timezone:
             if cleaned_data.get('starts_at', False):
