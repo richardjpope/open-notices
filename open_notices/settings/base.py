@@ -122,5 +122,3 @@ REST_FRAMEWORK = {
     'DATETIME_INPUT_FORMATS': ['%Y-%m-%dT%H:%M:%S', '%Y-%m-%dT%H:%M', '%Y-%m-%d'],
     'DATETIME_FORMAT': '%Y-%m-%dT%H:%M:%S'
 }
-
-CELERY_RESULT_BACKEND = 'django-db'
