@@ -22,6 +22,7 @@ INSTALLED_APPS = [
     'rest_framework_gis',
     'rest_framework.authtoken',
     'rest_framework_docs',
+    'django_celery_results',
     'core',
     'notices',
     'alerts',
@@ -121,3 +122,5 @@ REST_FRAMEWORK = {
     'DATETIME_INPUT_FORMATS': ['%Y-%m-%dT%H:%M:%S', '%Y-%m-%dT%H:%M', '%Y-%m-%d'],
     'DATETIME_FORMAT': '%Y-%m-%dT%H:%M:%S'
 }
+
+CELERY_RESULT_BACKEND = 'django-db'

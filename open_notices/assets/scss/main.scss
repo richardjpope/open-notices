@@ -154,7 +154,7 @@ label {
     text-align: center;
     background-color:$primary-color;
     color:$white;
-    padding:$global-padding * 2 $global-padding;
+    padding:$global-padding * 2 $global-padding * 2;
     margin-top:$global-margin * 2;
     margin-bottom:$global-margin * 3;
   }
