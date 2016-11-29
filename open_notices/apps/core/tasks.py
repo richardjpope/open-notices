@@ -8,14 +8,15 @@ from django.utils import timezone
 
 @shared_task
 def send_alert(alert_id):
+    
     alert = Alert.objects.get(id=alert_id)
 
     #get notices that overlap with area of alert
-    notices = Notice.objects.filter(location__intersects=alert.location, updated_at__gte=alert.user.alerts_checked_at)
+    notices = Notice.objects.filter(location__intersects=alert.location, updated_at__gte=alert.last_checked_at)
 
     #update the last checked datetime for this user
-    alert.user.alerts_checked_at = timezone.now()
-    alert.user.save()
+    alert.last_checked_at = timezone.now()
+    alert.save()
 
     #Send one email per notice
     for notice in notices:

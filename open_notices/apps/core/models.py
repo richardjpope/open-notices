@@ -8,7 +8,6 @@ class User(AbstractBaseUser):
 
     email = models.EmailField(unique=True)
     created_at = models.DateTimeField(auto_now_add=True)
-    alerts_checked_at = models.DateTimeField(auto_now_add=True)
     is_superuser  = models.BooleanField(default=False)
 
     objects = UserManager()
