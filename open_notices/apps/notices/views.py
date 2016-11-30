@@ -3,6 +3,7 @@ from django.shortcuts import redirect, reverse
 from django.utils.decorators import method_decorator
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.contrib.gis.geos import GEOSGeometry
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import FormView
@@ -15,6 +16,7 @@ from rest_framework_hstore.fields import HStoreField
 from rest_framework.exceptions import MethodNotAllowed
 from notices import models, forms
 from django.conf import settings
+from timezonefinder import TimezoneFinder
 
 class NoticeGeojsonSerializer(GeoFeatureModelSerializer):
     tags = HStoreField()
@@ -135,6 +137,19 @@ class NoticeCreateLocation(FormView):
 class NoticeCreateDatetime(FormView):
     template_name = 'notices/notice_create_datetime.html'
     form_class = forms.CreateNoticeDatetime
+
+    def get_initial(self):
+        #In some parts of the world it is not possible to derive the correct timezone from latlng, so user needs to select it. We can prepopulate with best guess though.
+        geojson = json.dumps(self.request.session['new-notice'].get('location', None))
+        if geojson:
+            centroid = GEOSGeometry(geojson).centroid
+
+            tf = TimezoneFinder()
+            timezone_from_location = tf.timezone_at(lng=centroid.x, lat=centroid.y)
+            initial = super(NoticeCreateDatetime, self).get_initial()
+            initial['timezone'] = timezone_from_location
+
+        return initial
 
     def dispatch(self, request, *args, **kwargs):
         if not request.session.get('new-notice', False):
