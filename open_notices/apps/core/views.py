@@ -26,6 +26,9 @@ class RegistrationView(FormView):
 class IndexView(TemplateView):
     template_name = "core/index.html"
 
+class AboutView(TemplateView):
+    template_name = "core/about.html"
+
 class APIView(TemplateView):
     template_name = "core/api.html"
 

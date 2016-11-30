@@ -21,5 +21,5 @@ def send_alert(alert_id):
     #Send one email per notice
     for notice in notices:
         title = "Notice: %s" % notice.title
-        message = notice.details
+        message = "%s" % notice.details
         send_mail(title, message, settings.EMAIL_FROM_ADDRESS, [alert.user.email])
