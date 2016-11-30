@@ -154,9 +154,10 @@ class NoticeCreateDatetime(FormView):
         serializer = NoticeSerializer(data=session_data)
         if serializer.is_valid():
             notice = serializer.save(user=self.request.user)
+            messages.add_message(self.request, messages.SUCCESS, 'Your notice has been posted')
             return redirect(notice)
         else:
-            messages.add_message(self.request, messages.SUCCESS, 'Sorry, something went wrong')
+            messages.add_message(self.request, messages.ERROR, 'Sorry, something went wrong')
 
 class NoticeCreateAPI(generics.CreateAPIView):
 
