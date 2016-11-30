@@ -34,10 +34,10 @@ class AlertDeleteView(DeleteView):
         return alert
 
     def post(self, request, *args, **kwargs):
-        if not 'yes' in request.POST:
-            return redirect(self.success_url)
-        else:
+        if request.POST.get('delete', None) == 'yes':
             return super(AlertDeleteView, self).post(request, *args, **kwargs)
+        else:
+            return redirect(self.success_url)
 
 class AlertCreateView(FormView):
     template_name = 'alerts/alert_create.html'

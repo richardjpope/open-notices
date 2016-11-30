@@ -10,8 +10,8 @@
     <p>Are you sure you want to cancel this alert?</p>
     <form action="" method="post">
       {% csrf_token %}
-      <button type="submit" class="button"  value="yes">Yes</button>
-      <button type="submit" class="button secondary" value="no">No</button>
+      <button type="submit" name="delete" class="button"  value="yes">Yes</button>
+      <button type="submit" name="delete" class="button secondary" value="no">No</button>
     </form>
   </div>
 {% endblock %}
