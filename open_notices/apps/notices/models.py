@@ -15,7 +15,7 @@ def _get_timezones_as_tuple():
     return result
 
 class Notice(models.Model):
-    title = models.CharField(max_length=50, help_text="e.g. 'Application for alcohol licence - House of Wine' or 'Westlow Food Bank - items required'")
+    title = models.CharField(max_length=80, help_text="e.g. 'Application for alcohol licence - House of Wine' or 'Westlow Food Bank - items required'")
     user = models.ForeignKey(settings.AUTH_USER_MODEL)
     details = models.TextField(blank=True, null=True, help_text="You can use markdown here")
     location = models.GeometryField()
