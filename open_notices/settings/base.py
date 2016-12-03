@@ -124,5 +124,5 @@ REST_FRAMEWORK = {
     'DATETIME_INPUT_FORMATS': ['%Y-%m-%dT%H:%M:%S', '%Y-%m-%dT%H:%M', '%Y-%m-%d'],
     'DATETIME_FORMAT': '%Y-%m-%dT%H:%M:%S',
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
-    'PAGE_SIZE': PAGINATION_PAGE_SIZE,
+    'PAGE_SIZE': 50,
 }

@@ -13,6 +13,7 @@ from rest_framework.serializers import ModelSerializer
 from rest_framework.response import Response
 from rest_framework_gis.serializers import GeoFeatureModelSerializer
 from rest_framework_hstore.fields import HStoreField
+from rest_framework_gis.pagination import GeoJsonPagination
 from rest_framework.exceptions import MethodNotAllowed
 from notices import models, forms
 from django.conf import settings
@@ -76,8 +77,11 @@ class NoticeListAPI(generics.ListAPIView):
 
     def get(self, request, format='json', *args, **kwargs):
         if format == 'geojson':
-            serializer = NoticeGeojsonSerializer(self.get_queryset(), many=True)
-            return Response(serializer.data)
+            queryset = self.get_queryset()
+            paginator = GeoJsonPagination()
+            paginated_queryset = paginator.paginate_queryset(queryset, self.request, view=self)
+            serializer = NoticeGeojsonSerializer(paginated_queryset, many=True)
+            return paginator.get_paginated_response(serializer.data)
         else:
             return super(NoticeListAPI, self).get(request, format, *args, **kwargs)
 
