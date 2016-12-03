@@ -68,6 +68,7 @@ class NoticeSerializer(ModelSerializer):
 
 class NoticeList(ListView):
     model = models.Notice
+    paginate_by = settings.PAGINATION_PAGE_SIZE
 
 class NoticeListAPI(generics.ListAPIView):
     queryset = models.Notice.objects.all()

@@ -105,6 +105,8 @@ DATETIME_INPUT_FORMATS = [
     '%Y-%m-%d %H:%M',
 ]
 
+PAGINATION_PAGE_SIZE = 50
+
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework.authentication.TokenAuthentication',
@@ -120,5 +122,7 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.IsAuthenticatedOrReadOnly',
     ),
     'DATETIME_INPUT_FORMATS': ['%Y-%m-%dT%H:%M:%S', '%Y-%m-%dT%H:%M', '%Y-%m-%d'],
-    'DATETIME_FORMAT': '%Y-%m-%dT%H:%M:%S'
+    'DATETIME_FORMAT': '%Y-%m-%dT%H:%M:%S',
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': PAGINATION_PAGE_SIZE,
 }
