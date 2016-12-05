@@ -25,7 +25,7 @@ class NoticeGeojsonSerializer(GeoFeatureModelSerializer):
     class Meta:
         model = models.Notice
         geo_field = "location"
-        fields = ('id', 'location', 'title', 'details', 'tags', 'starts_at', 'ends_at', 'timezone')
+        fields = ('id', 'location', 'title', 'description', 'tags', 'starts_at', 'ends_at', 'timezone')
 
     def validate(self, attrs):
         #use the model's validation
@@ -59,7 +59,7 @@ class NoticeSerializer(ModelSerializer):
 
     class Meta:
         model = models.Notice
-        fields = ('id', 'location', 'title', 'details', 'tags', 'starts_at', 'ends_at', 'timezone')
+        fields = ('id', 'location', 'title', 'description', 'tags', 'starts_at', 'ends_at', 'timezone')
 
     def validate(self, attrs):
         #use the model's validation

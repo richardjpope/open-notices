@@ -34,7 +34,6 @@ repoze.lru==0.6
 requests==2.12.1
 rjsmin==1.0.12
 rlp==0.4.3
-Shapely==1.5.17
 six==1.10.0
 structlog==15.3.0
 timezonefinder==1.5.7

@@ -1,7 +1,7 @@
 $(document).ready(function(){
   
   $('table.tag-input label').addClass('show-for-sr');
-  add_row = $('<a href="#" class="button small">Add a row</a>');
+  add_row = $('<p><a href="#">Add another row</a></p>');
   add_row.click(function(){
 
     //duplicate last row

@@ -2,7 +2,6 @@ from django.db import models
 from django.contrib.auth.models import AbstractBaseUser
 from core.managers import UserManager
 
-
 class User(AbstractBaseUser):
     USERNAME_FIELD = 'email'
 

@@ -20,9 +20,9 @@ class CreateNotice(forms.ModelForm):
 
     class Meta:
         model = models.Notice
-        fields = ['title', 'details', 'tags']        
+        fields = ['title', 'description', 'tags']        
         widgets = {
-            'details': forms.Textarea,
+            'description': forms.Textarea,
             'tags': DataWidget,
         }
 

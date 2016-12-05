@@ -6,6 +6,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY', None)
 ALLOWED_HOSTS = []
 BROKER_URL = os.environ.get('BROKER_URL', None)
 CELERY_RESULT_BACKEND = os.environ.get('CELERY_RESULT_BACKEND', None)
+WIKI_URL = os.environ.get('WIKI_URL', None)
 
 INSTALLED_APPS += [
   "anymail",
