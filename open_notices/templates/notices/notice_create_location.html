@@ -15,11 +15,14 @@
 {% block content %}
   <div class="row column small-12">
     <h1><small>(Step 2 of 3)</small> Location</h1>
+    <p>
+      Enter the location covered by the notice.
+    </p>
     <form action="" method="post">
       {% csrf_token %}
       {{ form.location }}
       <div>
-        <button type="submit" class="button expanded">Create</button>
+        <button type="submit" class="button expanded">Next</button>
       </div>
     </form>
   </div>
