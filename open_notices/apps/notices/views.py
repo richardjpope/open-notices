@@ -3,7 +3,7 @@ from django.shortcuts import redirect, reverse
 from django.utils.decorators import method_decorator
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.contrib.gis.geos import GEOSGeometry
+from django.contrib.gis.geos import GEOSGeometry, Polygon
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import FormView
@@ -67,12 +67,38 @@ class NoticeSerializer(ModelSerializer):
         notice.clean()
         return attrs
 
-class NoticeList(ListView):
+#START HERE
+class NoticeFilterMixin(object):
+    def get_queryset(self):
+        queryset = models.Notice.objects.all()
+        tags = {}
+        special_parameters = ['page', 'bbox']
+
+        #tags
+        for k,v in self.request.GET.items():
+            if not k in special_parameters:
+                tags[k] = v
+        if tags:
+            queryset = queryset.filter(tags=tags)
+        
+        #bounding box
+        bbox_string = self.request.GET.get('bbox', None)
+        if bbox_string:
+            try:
+                p1x, p1y, p2x, p2y = (float(n) for n in bbox_string.split(','))
+                bbox_polygon = Polygon.from_bbox((p1x, p1y, p2x, p2y))
+                queryset = queryset.filter(location__bboverlaps=bbox_polygon)
+            except ValueError:
+                queryset = models.Notice.objects.none()
+
+        #return queryset
+        return queryset
+
+class NoticeList(NoticeFilterMixin, ListView):
     model = models.Notice
     paginate_by = settings.PAGINATION_PAGE_SIZE
 
-class NoticeListAPI(generics.ListAPIView):
-    queryset = models.Notice.objects.all()
+class NoticeListAPI(NoticeFilterMixin, generics.ListAPIView):
     serializer_class = NoticeSerializer
 
     def get(self, request, format='json', *args, **kwargs):
