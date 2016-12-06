@@ -23,6 +23,7 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'rest_framework_docs',
     'django_celery_results',
+    'recurrence',
     'core',
     'notices',
     'alerts',
@@ -54,6 +55,9 @@ TEMPLATES = [
         },
     },
 ]
+
+AUTHENTICATION_BACKENDS = ('open_notices.apps.core.backends.UserBackend',)
+
 
 
 # Password validation

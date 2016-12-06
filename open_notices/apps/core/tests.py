@@ -3,6 +3,14 @@ from django.test import Client
 from django.contrib.auth import get_user_model
 from rest_framework.authtoken.models import Token
 
+class UserTestCase(TestCase):
+    def test_lowercase_email(self):
+        UserModel = get_user_model()
+        user = UserModel(email='ExistingUser@Example.ORG')
+        user.set_password('notasecret')
+        user.save()
+        self.assertEqual(user.email, 'existinguser@example.org')
+
 class APITokenTestCase(TestCase):
     def setUp(self):
 

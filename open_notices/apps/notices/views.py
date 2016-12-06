@@ -69,7 +69,6 @@ class NoticeSerializer(ModelSerializer):
         notice.clean()
         return attrs
 
-#START HERE
 class NoticeFilterMixin(object):
     def get_queryset(self):
         queryset = models.Notice.objects.all()
@@ -225,4 +224,3 @@ class NoticeCreateAPI(generics.CreateAPIView):
             raise MethodNotAllowed('')
         else:
             return super(NoticeCreateAPI, self).post(request, format, *args, **kwargs)
-
