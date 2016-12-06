@@ -1,4 +1,5 @@
 import json
+import pytz
 from django.shortcuts import redirect, reverse
 from django.utils.decorators import method_decorator
 from django.contrib import messages
@@ -18,6 +19,7 @@ from rest_framework.exceptions import MethodNotAllowed
 from notices import models, forms
 from django.conf import settings
 from timezonefinder import TimezoneFinder
+from datetime import datetime
 
 class NoticeGeojsonSerializer(GeoFeatureModelSerializer):
     tags = HStoreField()
@@ -179,6 +181,11 @@ class NoticeCreateDatetime(FormView):
             timezone_from_location = tf.timezone_at(lng=centroid.x, lat=centroid.y)
             initial = super(NoticeCreateDatetime, self).get_initial()
             initial['timezone'] = timezone_from_location
+            try:
+                now = datetime.now(pytz.timezone(timezone_from_location))
+                initial['starts_at'] = now.date()
+            except UnknownTimeZoneError:
+                pass
 
         return initial
 
