@@ -8,4 +8,3 @@ class RegistrationForm(forms.ModelForm):
         fields = ['email', 'password']
 
     password = forms.CharField(label='Password', widget=forms.PasswordInput)
-
