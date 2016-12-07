@@ -5957,7 +5957,9 @@ label {
   color: #fefefe;
   padding: 2rem 2rem;
   margin-top: 2rem;
-  margin-bottom: 3rem; }
+  margin-bottom: 2rem; }
+.notice .posted-by {
+  text-align: center; }
 .notice .map {
   height: 200px; }
 .notice h2 {

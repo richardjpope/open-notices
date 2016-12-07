@@ -16,6 +16,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.postgres',
     'django.contrib.gis',
+    'django.contrib.humanize',
     'foundation_formtags',
     'markdown_deux',
     'rest_framework',

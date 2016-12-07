@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load humanize %}
 {% load staticfiles %}
 {% block title %}
   Alerts
@@ -21,7 +22,7 @@
     {% for alert in object_list %}
         <li>
           <div id="map-{{alert.id}}"></div>
-          <p>Alert created on {{alert.created_at}}</p>
+          <p>This alert created {{alert.created_at|naturalday}} and last checked on {{alert.last_checked_at|naturaltime}}</p>
           <p>
             <a href="{% url 'alert-delete' alert.id %}" class="button alert small expanded">
           Delete this alert</a>

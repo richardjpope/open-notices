@@ -10,7 +10,7 @@
 {% block title %}
   {{notice.title}}
 {% endblock %}
- 
+
 {% block content %}
   <article class="notice">
     <header class="row columns large-8 large-offset-2">
@@ -28,6 +28,11 @@
           </tr>
         {% endfor %}
     </table>
+    <p class="posted-by">
+      {% if notice.user.display_name %}
+        Posted by {{notice.user.display_name}}.
+      {% endif %}
+    </p>
       <aside class="data-links">
         <ul>
           <li><a href="{% url 'notice-detail' notice.id %}.json">JSON</a></li>

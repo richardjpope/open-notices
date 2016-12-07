@@ -156,7 +156,10 @@ label {
     color:$white;
     padding:$global-padding * 2 $global-padding * 2;
     margin-top:$global-margin * 2;
-    margin-bottom:$global-margin * 3;
+    margin-bottom:$global-margin * 2;
+  }
+  .posted-by {
+    text-align:center;
   }
   .map {
     height:200px;
