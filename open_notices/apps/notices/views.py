@@ -131,6 +131,11 @@ class NoticeCreate(FormView):
     template_name = 'notices/notice_create.html'
     form_class = forms.CreateNotice
 
+    def get_context(self):
+        context = super(NoticeCreate, self).get_context_data(**kwargs)
+        context['wiki_url'] = settings.WIKI_URL
+        return context
+
     def dispatch(self, request, *args, **kwargs):
         if request.session.get('new-notice', False):
             self.request.session.pop('new-notice')
