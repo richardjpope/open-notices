@@ -8,7 +8,7 @@ from core import views
 urlpatterns = [
     url(r'^', include('core.urls')),
     url(r'^', include('notices.urls')),
-    url(r'^alerts/', include('alerts.urls')),
+    url(r'^alerts', include('alerts.urls')),
     url(r'^signin/$', auth_views.login, name='login'),
     url(r'^signout/$', auth_views.logout,  {'next_page': '/'}, name='logout'),
     url(r'^admin/', admin.site.urls),

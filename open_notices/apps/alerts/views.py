@@ -10,43 +10,105 @@ from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import FormView, DeleteView
 from django.utils.decorators import method_decorator
+from rest_framework import generics
+from rest_framework.response import Response
+from rest_framework.serializers import ModelSerializer
+from rest_framework.exceptions import MethodNotAllowed
+from rest_framework_gis.serializers import GeoFeatureModelSerializer
+from rest_framework import permissions
 from alerts import models, forms
 
 success_message = 'Your alert has been created'
 
+class IsOwner(permissions.BasePermission):
+    def has_object_permission(self, request, view, obj):
+        return obj.user == request.user
+
+class AlertSerializer(ModelSerializer):
+
+    class Meta:
+        model = models.Alert
+        fields = ('id', 'location', 'last_checked_at')
+
+    def validate(self, attrs):
+        #use the model's validation
+        alert = models.Alert(**attrs)
+        alert.clean()
+        return attrs
+
+class AlertGeojsonSerializer(GeoFeatureModelSerializer):
+
+    class Meta:
+        model = models.Alert
+        geo_field = "location"
+        fields = ('id', 'location', 'last_checked_at')
+
+    def validate(self, attrs):
+        #use the model's validation
+        alert = models.Alert(**attrs)
+        alert.clean()
+        return attrs
+
 @method_decorator(login_required, name='dispatch')
-class AlertListView(ListView):
+class AlertList(ListView):
     model = models.Alert
 
     def get_queryset(self):
         return models.Alert.objects.filter(user=self.request.user)
 
+class AlertListAPI(generics.ListAPIView):
+    serializer_class = AlertSerializer
+    pagination_class = None
+    permission_classes = (permissions.IsAuthenticated,)
+
+    def get_queryset(self):
+        return models.Alert.objects.filter(user=self.request.user)
+
+    def get(self, request, format='json', *args, **kwargs):
+        if format == 'geojson':
+            serializer = AlertGeojsonSerializer(self.get_queryset(), many=True)
+            return Response(serializer.data)
+        else:
+            return super(AlertListAPI, self).get(request, format, *args, **kwargs)
+
+class AlertDetailAPI(generics.RetrieveAPIView):
+    queryset = models.Alert.objects.all()
+    serializer_class = AlertSerializer
+    permission_classes = (permissions.IsAuthenticated, IsOwner)
+
+    def get(self, request, format='json', *args, **kwargs):
+        if format == 'geojson':
+            serializer = AlertGeojsonSerializer(self.get_object())
+            return Response(serializer.data)
+        else:
+          return super(AlertDetailAPI, self).get(request, format, *args, **kwargs)
+
 @method_decorator(login_required, name='dispatch')
-class AlertDeleteView(DeleteView):
+class AlertDelete(DeleteView):
     model = models.Alert
     success_url = reverse_lazy('alert-list')
 
     def get_object(self, queryset=None):
         #users can only delete their own alerts
-        alert = super(AlertDeleteView, self).get_object()
+        alert = super(AlertDelete, self).get_object()
         if not alert.user == self.request.user:
             raise Http404
         return alert
 
     def post(self, request, *args, **kwargs):
         if request.POST.get('delete', None) == 'yes':
-            return super(AlertDeleteView, self).post(request, *args, **kwargs)
+            return super(AlertDelete, self).post(request, *args, **kwargs)
         else:
             return redirect(self.success_url)
 
-class AlertCreateView(FormView):
+class AlertCreate(FormView):
     template_name = 'alerts/alert_create.html'
     form_class = forms.CreateAlert
 
     def dispatch(self, request, *args, **kwargs):
         if request.session.get('new-alert', False):
             self.request.session.pop('new-alert')
-        return super(AlertCreateView, self).dispatch(self.request, *args, **kwargs)
+        return super(AlertCreate, self).dispatch(self.request, *args, **kwargs)
 
     def form_valid(self, form):
       alert = models.Alert()
@@ -67,7 +129,21 @@ class AlertCreateView(FormView):
 
         return redirect(reverse('create-alert-user'))
 
-class AlertCreateUserView(FormView):
+class AlertCreateAPI(generics.CreateAPIView):
+
+    serializer_class = AlertSerializer
+
+    def perform_create(self, serializer):
+        alert = serializer.save(user=self.request.user)
+
+    def post(self, request, format='json', *args, **kwargs):
+        #Only JSON accepted for edit/create/delete
+        if not format == 'json':
+            raise MethodNotAllowed('')
+        else:
+            return super(AlertCreateAPI, self).post(request, format, *args, **kwargs)
+
+class AlertCreateUser(FormView):
     template_name = 'alerts/create_user.html'
     form_class = forms.CreateUser
 
@@ -75,7 +151,7 @@ class AlertCreateUserView(FormView):
         if not request.session.get('new-alert', False):
             return redirect(reverse('alert-create'))
         else:
-            return super(AlertCreateUserView, self).dispatch(request, *args, **kwargs)
+            return super(AlertCreateUser, self).dispatch(request, *args, **kwargs)
 
     def form_valid(self, form):
 
@@ -101,5 +177,4 @@ class AlertCreateUserView(FormView):
         messages.add_message(self.request, messages.SUCCESS, success_message)
 
         return redirect(reverse('alert-list'))
-
 

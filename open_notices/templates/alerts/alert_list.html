@@ -1,21 +1,42 @@
 {% extends "base.html" %}
+{% load staticfiles %}
 {% block title %}
   Alerts
 {% endblock %}
 
+{% block head %}
+  <script type="text/javascript" src="{% static 'javascript/static-map.js' %}"></script>
+{% endblock %}
+
 {% block content %}
   <div class="row column small-12">
-    <h1>Alerts</h1>
-    <a href="{% url 'alert-create' %}" class="button">Create an alert</a>
+    <h1>Your alerts</h1>
+    <p>
+      You can setup email alerts for a particular area of interest.  
+    </p>
+    <p>
+      <a href="{% url 'alert-create' %}" class="button">Create a new alert</a>
+    </p>
     <ul>
     {% for alert in object_list %}
         <li>
-          {{alert.location}}
-          <a href="{% url 'alert-delete' alert.id %}" class="button small">Delete</a>
+          <div id="map-{{alert.id}}"></div>
+          <p>Alert created on {{alert.created_at}}</p>
+          <p>
+            <a href="{% url 'alert-delete' alert.id %}" class="button alert small expanded">
+          Delete this alert</a>
+          </p>
         </li>
     {% empty %}
         <li>You have not created any alerts</li>
     {% endfor %}
     </ul>
   </div>
+  <script type="text/javascript">
+    $(document).ready(function(){
+      {% for alert in object_list %}
+        staticMap('map-{{alert.id}}', "{% url 'alert-detail-api' alert.id %}.geojson")
+      {% endfor %}
+    });
+  </script>
 {% endblock %}

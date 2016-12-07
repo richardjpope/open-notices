@@ -29,12 +29,26 @@ class NoticeModelTestCase(TestCase):
 
 class NoticeAPIGeojsonTestCase(TestCase):
 
+    def get_valid_data(self):
+        return {'title': 'test title', 'location': {"type":"Point","coordinates":[-0.09430885313565737,51.43326585306407]}, 'tags': [],"starts_at":"2016-01-01T11:00:00","ends_at":"2016-01-02T12:00:00", "timezone": "Europe/London"}
+
     def setUp(self):
         self.client = APIClient()
+        UserModel = get_user_model()
+        self.user = UserModel(email='existinguser@example.org')
+        self.user.set_password('notasecret')
+        self.user.save()
 
     def test_list(self):
         response = self.client.get('/notices.geojson')
         self.assertEqual(response.status_code, 200)
+
+    def test_create_method_not_allowed(self):
+        data = self.get_valid_data()
+        token = Token.objects.get_or_create(user=self.user)[0]
+        self.client.credentials(HTTP_AUTHORIZATION='Token ' + token.key)
+        response = self.client.post('/notices/new.geojson', data, format='json')
+        self.assertEqual(response.status_code, 405)
 
 class NoticeAPITestCase(TestCase):
 
