@@ -92,6 +92,13 @@ footer {
   background:$light-gray;
 }
 
+.content {
+  h1  {
+    padding-top: $global-padding * 3;
+    padding-bottom: $global-padding * 1.1;
+  }
+}
+
 .button {
   font-family: $header-font-family;
   font-weight:bold;

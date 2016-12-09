@@ -5907,6 +5907,10 @@ footer {
   padding-top: 1rem;
   background: #ecf0f1; }
 
+.content h1 {
+  padding-top: 3rem;
+  padding-bottom: 1.1rem; }
+
 .button {
   font-family: "Arvo", serif;
   font-weight: bold; }

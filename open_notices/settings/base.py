@@ -8,7 +8,6 @@ sys.path.insert(0, os.path.join(PROJECT_ROOT, 'apps'))
 
 # Application definition
 INSTALLED_APPS = [
-    'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
