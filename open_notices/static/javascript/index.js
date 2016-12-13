@@ -150,4 +150,46 @@ $(document).ready(function(){
     }
   });
 
+  geocoder = new Geocoder('nominatim', {
+      provider: 'pelias',
+      key: 'mapzen-VoiExtQ',
+      lang: 'en-GB', //en-US, fr-FR
+      placeholder: 'Search for ...',
+      limit: 5,
+      keepOpen: false,
+      autoComplete: false,
+      autoCompleteMinLength: 5,
+      preventDefault: false
+    });
+    map.addControl(geocoder);
+
+    geocoder.on('addresschosen', function(evt){
+      map.getView().setCenter(evt.coordinate);
+    });
+
+    //move the geocoder search box out of the map
+    $('#q').replaceWith($('#gcd-input'));
+    $('#gcd-input').removeClass('ol3-geocoder-input-search');
+    $('#gcd-input').addClass('input-group-field');
+    $('.ol3-geocoder-search.ol-control').remove();
+    $('.ol3-geocoder-container').css('left', 0);
+    $('.ol3-geocoder-result').css('left', 0);
+    $('.ol3-geocoder-result').css('position', 'fixed');
+    $('.ol3-geocoder-result').css('top', 'auto');
+    $('.ol3-geocoder-result').css('bottom', $('#intro').css('height'));
+    $('.ol3-geocoder-result').css('width', $('.ol-viewport').css('width'));
+
+    // function onSearch (evt) {
+    //  hit = evt.key ? evt.key === 'Enter' :
+    //         evt.which ? evt.which === 13 :
+    //         evt.keyCode ? evt.keyCode === 13 : false;
+    //       if (hit) {
+    //         document.getElementById('gcd-input').blur();
+    //       }
+    // }
+
+    // document.getElementById('gcd-input').addEventListener('keyup', onSearch, false);
+
+
+
 });
