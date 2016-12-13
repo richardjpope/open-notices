@@ -1,4 +1,25 @@
+
+function getUrlParameter(key){
+  url = window.location.href;
+  results = new RegExp('[\?&]' + key + '=([^&#]*)').exec(url);
+  return results[1] || 0;
+}
+
 $(document).ready(function(){
+
+  function extentToLonLat(extent){
+    bottom_left = ol.proj.toLonLat([extent[0],extent[1]]);
+    top_right = ol.proj.toLonLat([extent[2],extent[3]]);
+    latlng_extent = [bottom_left[0], bottom_left[1], top_right[0], top_right[1]]
+    return latlng_extent;
+  }
+
+  function updateURL(center, zoom){
+    center = ol.proj.toLonLat(center);
+    queryString = '?center=' + center.join(',');
+    queryString += '&zoom=' + zoom;
+    history.pushState({}, document.title, queryString)
+  }
 
   //rotate intro text
   intro_text_example_count = 0;
@@ -26,7 +47,11 @@ $(document).ready(function(){
   var vector = new ol.layer.Vector({
     source: new ol.source.Vector({
         format: new ol.format.GeoJSON(),
-        url: '/notices.geojson'
+        url: function(extent) {
+          extent = extentToLonLat(extent);
+          return '/notices.geojson?bbox=' + extent.join(',');
+        },
+        strategy: ol.loadingstrategy.bbox
     }),
     style: new ol.style.Style({
         stroke: new ol.style.Stroke({
@@ -40,9 +65,10 @@ $(document).ready(function(){
                         })
                     })
     })
-});
+  });
 
   view = new ol.View({center: ol.proj.fromLonLat([0.1278, 51.5074]), zoom: 10})
+
   geolocation = new ol.Geolocation({
         projection: view.getProjection()
       });
@@ -53,6 +79,21 @@ $(document).ready(function(){
       interactions: ol.interaction.defaults({mouseWheelZoom:false}),
       view: view
   });
+
+  map.on('moveend', function(evt){
+    zoom = evt.map.getView().getZoom();
+    center = evt.map.getView().getCenter();
+    updateURL(center, zoom);
+  });
+
+  //get location from url if present
+  if(getUrlParameter('center') && getUrlParameter('zoom')){
+    center = getUrlParameter('center').split(',').map(Number);
+    center = ol.proj.fromLonLat(center);
+    zoom = Number(getUrlParameter('zoom'));
+    map.getView().setCenter(center);
+    map.getView().setZoom(zoom);
+  }
 
   geolocation.on('change', function() {
       map.getView().setCenter(geolocation.getPosition());
