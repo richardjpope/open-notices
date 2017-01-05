@@ -2,7 +2,7 @@
 {% load humanize %}
 {% load staticfiles %}
 {% block title %}
-  Alerts
+  Your alerts
 {% endblock %}
 
 {% block head %}
@@ -18,20 +18,20 @@
     <p>
       <a href="{% url 'alert-create' %}" class="button">Create a new alert</a>
     </p>
-    <ul>
-    {% for alert in object_list %}
-        <li>
-          <div id="map-{{alert.id}}"></div>
-          <p>This alert created {{alert.created_at|naturalday}} and last checked on {{alert.last_checked_at|naturaltime}}</p>
-          <p>
-            <a href="{% url 'alert-delete' alert.id %}" class="button alert small expanded">
-          Delete this alert</a>
-          </p>
-        </li>
-    {% empty %}
-        <li>You have not created any alerts</li>
-    {% endfor %}
-    </ul>
+    {% if object_list %}
+      <ul>
+        {% for alert in object_list %}
+            <li>
+              <div id="map-{{alert.id}}"></div>
+              <p>This alert created {{alert.created_at|naturalday}} and last checked on {{alert.last_checked_at|naturaltime}}</p>
+              <p>
+                <a href="{% url 'alert-delete' alert.id %}" class="button alert small expanded">
+              Delete this alert</a>
+              </p>
+            </li>
+        {% endfor %}
+      </ul>
+    {% endif %}
   </div>
   <script type="text/javascript">
     $(document).ready(function(){

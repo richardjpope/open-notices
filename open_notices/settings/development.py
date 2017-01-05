@@ -10,6 +10,7 @@ ALLOWED_HOSTS = []
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 EMAIL_FROM_ADDRESS = 'mail@localhost'
+WIKI_URL = 'https://docs.google.com/document/d/1wZfB0Q_fkPJVZ9GS5I4bpZ_NhBYm5DVKpGA7_BojPsY/edit'
 
 # Database
 # https://docs.djangoproject.com/en/1.9/ref/settings/#databases
