@@ -161,8 +161,5 @@ class AlertTestCase(TestCase):
         data = {'delete': 'yes'}
         response = self.client.post('/alerts/%s/delete' % alert.id, data, follow=True)
 
-        self.assertContains(response, "You have not created any alerts")
+        self.assertNotContains(response, "Delete this alert")
         
-
-        
-        # self.assertContains(response, 'Your alert has been created')

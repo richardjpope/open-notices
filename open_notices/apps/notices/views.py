@@ -133,7 +133,6 @@ class NoticeCreate(FormView):
 
     def get_context_data(self, *args, **kwargs):
         context = super(NoticeCreate, self).get_context_data(**kwargs)
-        print(settings.WIKI_URL)
         context['wiki_url'] = settings.WIKI_URL
         return context
 
