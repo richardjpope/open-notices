@@ -5,6 +5,7 @@ DEBUG = True
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 't_i39la$p1&q3+e03*v0birx1%lujoy7vnl8!-$h63m$-e$ap2'
+WIKI_URL = 'https://docs.google.com/document/d/1wZfB0Q_fkPJVZ9GS5I4bpZ_NhBYm5DVKpGA7_BojPsY/edit'
 
 ALLOWED_HOSTS = []
 
