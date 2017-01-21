@@ -54,10 +54,17 @@
     document.getElementById('{{ id }}').setAttribute("hidden", true);
     document.getElementById('{{id}}-label').setAttribute("hidden", true);
 
+    //style
+    var style = new ol.style.Style({
+                      stroke: new ol.style.Stroke({
+                        color: '#ff0000',
+                        width: 6
+                      })
+                    });
     //Layers
     var raster = new ol.layer.Tile({source: new ol.source.Stamen({layer: 'toner'})});
     source = new ol.source.Vector({wrapX: false});
-    vector = new ol.layer.Vector({source: source});
+    vector = new ol.layer.Vector({source: source, style: style});
 
     //map
     var map = new ol.Map({
@@ -75,7 +82,12 @@
     });
 
     //drawing
-    interaction = new ol.interaction.Draw({source: source, type: 'Polygon',freehand: true});
+    interaction = new ol.interaction.Draw({
+      source: source,
+      type: 'Polygon',
+      freehand: true,
+      style: style
+    });
     interaction.on('drawstart', function (event) {
         source.clear();
     });
@@ -99,7 +111,6 @@
         var features = source.getFeatures();
         document.getElementById('{{ id }}').value = writer.writeGeometry(features[0].getGeometry());
     });
-
 
     // //add a clear button
     // clear_button = document.createElement('button');

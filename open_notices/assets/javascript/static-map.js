@@ -12,7 +12,7 @@
       style: new ol.style.Style({
           stroke: new ol.style.Stroke({
               color: '#ff0000',
-              width: 3
+              width: 6
           }),
           image: new ol.style.Circle({
                           radius: 7,
