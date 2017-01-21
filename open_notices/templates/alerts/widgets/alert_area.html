@@ -14,7 +14,7 @@
   }
   .ol-touch .clear-selection {
     top: 0.5em;
-  }
+  }s
 </style>
  <script>
 
@@ -55,7 +55,7 @@
     document.getElementById('{{id}}-label').setAttribute("hidden", true);
 
     //Layers
-    raster = new ol.layer.Tile({source: new ol.source.OSM()});
+    var raster = new ol.layer.Tile({source: new ol.source.Stamen({layer: 'toner'})});
     source = new ol.source.Vector({wrapX: false});
     vector = new ol.layer.Vector({source: source});
 
