@@ -21,13 +21,15 @@
     {% if object_list %}
       <ul>
         {% for alert in object_list %}
-            <li>
-              <div id="map-{{alert.id}}"></div>
-              <p>This alert created {{alert.created_at|naturalday}} and last checked on {{alert.last_checked_at|naturaltime}}</p>
-              <p>
-                <a href="{% url 'alert-delete' alert.id %}" class="button alert small expanded">
-              Delete this alert</a>
-              </p>
+            <li class="row">
+              <div class="column small-12 medium-8" id="map-{{alert.id}}"></div>
+              <div class="column small-12 medium-4">
+                <p>This alert created {{alert.created_at|naturalday}} and last checked on {{alert.last_checked_at|naturaltime}}</p>
+                <p>
+                  <a href="{% url 'alert-delete' alert.id %}" class="button alert small expanded">
+                Delete this alert</a>
+                </p>
+              </div>
             </li>
         {% endfor %}
       </ul>
