@@ -5996,4 +5996,22 @@ table.tag-input input {
   border: none;
   height: 5rem; }
 
+.callout.success {
+  background-color: #fefefe;
+  border-bottom: solid 2px #3adb76;
+  color: #3adb76;
+  font-weight: bold; }
+
+.callout.warning {
+  background-color: #fefefe;
+  border-bottom: solid 2px #ffae00;
+  color: #ffae00;
+  font-weight: bold; }
+
+.callout.alert {
+  background-color: #fefefe;
+  border-bottom: solid 2px #ec5840;
+  color: #ec5840;
+  font-weight: bold; }
+
 /*# sourceMappingURL=main.css.map */

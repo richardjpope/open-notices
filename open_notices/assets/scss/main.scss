@@ -217,3 +217,23 @@ table.tag-input {
   }
 
 }
+
+//callouts
+.callout.success {
+    background-color: $white;
+    border-bottom:solid 2px $success-color;
+    color:$success-color;
+    font-weight:bold;
+}
+.callout.warning {
+    background-color: $white;
+    border-bottom:solid 2px $warning-color;
+    color:$warning-color;
+    font-weight:bold;
+}
+.callout.alert {
+    background-color: $white;
+    border-bottom:solid 2px $alert-color;
+    color:$alert-color;
+    font-weight:bold;
+}
