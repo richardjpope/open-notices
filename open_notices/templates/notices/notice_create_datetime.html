@@ -22,7 +22,14 @@
       {% csrf_token %}
       {% render_field form.starts_at %}
       {% render_field form.ends_at %}
-      {% render_field form.timezone %}
+      {% if form.timezone.value %}
+        <details>
+          <summary>Time zone: <span>{{form.timezone.value}}</span></summary>
+          {% render_field form.timezone %}
+        </details>
+      {% else %}
+        {% render_field form.timezone %}
+      {% endif %}
       <div>
         <button type="submit" class="button expanded">Publish</button>
       </div>

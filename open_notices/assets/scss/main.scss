@@ -218,6 +218,13 @@ table.tag-input {
 
 }
 
+details {
+  margin-bottom:$global-margin;
+  summary {
+    font-size:$global-font-size;  
+  }
+}
+
 //callouts
 .callout.success {
     background-color: $white;

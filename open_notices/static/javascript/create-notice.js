@@ -1,5 +1,6 @@
 $(document).ready(function(){
   
+  //key value table
   $('table.tag-input label').addClass('show-for-sr');
   add_row = $('<p><a href="#">Add another row</a></p>');
   add_row.click(function(){
@@ -25,5 +26,13 @@ $(document).ready(function(){
 
   //add button
   add_row.insertAfter('table.tag-input');
+
+  //timezone
+  if ($('#id_timezone').val()){
+    $('#id_timezone').on('change', function() {
+      $('summary span').html(this.value);
+    });
+  }
+
 
 });
