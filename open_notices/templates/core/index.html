@@ -4,6 +4,7 @@
   Open Notices
 {% endblock %}
 {% block head %}
+  <script type="text/javascript" src="{% static 'javascript/map.js' %}"></script>
   <script type="text/javascript" src="{% static 'javascript/index.js' %}"></script>
 {% endblock %}
 {% block content %}
@@ -14,7 +15,7 @@
       <h1>Welcome to Open Notices</h1>
       <p>The open database of <span id="intro-text-examples">official notices</span></p>
     </div>
-    <form action="{% url 'notice-list' %}" method="get">
+    <form action="{% url 'notice-list' %}" method="get" style="display:none;">
       <label id="q_label" for="q">Search</label>
       <div aria-labelledby="q_label">
         <div class="input-group">

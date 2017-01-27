@@ -1,10 +1,3 @@
-
-function getUrlParameter(key){
-  url = window.location.href;
-  results = new RegExp('[\?&]' + key + '=([^&#]*)').exec(url);
-  return results[1] || 0;
-}
-
 $(document).ready(function(){
 
   function extentToLonLat(extent){
@@ -41,9 +34,8 @@ $(document).ready(function(){
   $('#q_label').addClass('show-for-sr');
 
   //map
+  map = getBaseMap();
   var geoJSONFormat = new ol.format.GeoJSON();
-  
-  raster = new ol.layer.Tile({source: new ol.source.Stamen({layer: 'toner'})});
   var vector = new ol.layer.Vector({
     source: new ol.source.Vector({
         format: new ol.format.GeoJSON(),
@@ -53,32 +45,10 @@ $(document).ready(function(){
         },
         strategy: ol.loadingstrategy.bbox
     }),
-    style: new ol.style.Style({
-        stroke: new ol.style.Stroke({
-            color: '#ff0000',
-            width: 3
-        }),
-        image: new ol.style.Circle({
-                        radius: 7,
-                        fill: new ol.style.Fill({
-                            color: '#ff0000'
-                        })
-                    })
-    })
+    style: getVectorStyle()
   });
 
-  view = new ol.View({center: ol.proj.fromLonLat([0.1278, 51.5074]), zoom: 10})
-
-  geolocation = new ol.Geolocation({
-        projection: view.getProjection()
-      });
-
-  var map = new ol.Map({
-      layers: [raster, vector],
-      target: 'map',
-      interactions: ol.interaction.defaults({mouseWheelZoom:false}),
-      view: view
-  });
+  map.addLayer(vector);
 
   map.on('moveend', function(evt){
     zoom = evt.map.getView().getZoom();
@@ -95,101 +65,16 @@ $(document).ready(function(){
     map.getView().setZoom(zoom);
   }
 
-  geolocation.on('change', function() {
-      map.getView().setCenter(geolocation.getPosition());
-      map.getView().setZoom(15);
-      loading.hide();
-  });
-
-  geolocation.on('error', function(error) {
-    loading.hide();
-    alert('Unable to get your location')
-  });
-
-  //geo-location
-  if (navigator.geolocation) {
-    div = $('<div></div>')
-    loading = $('<img id="loading-geolocation">')
-    loading.attr("src", STATIC_URL + 'images/loading-small.gif');
-    loading.hide();
-
-    a = $('<a href="#">Use my location</a>');
-    a.click(function(){
-      geolocation.setTracking(false);
-      geolocation.setTracking(true);
-      $('#loading-geolocation').show();
-    });
-    div.append(a);
-    div.append(loading);
-    $('#intro form').append(div);
-  }
-
-  //Popup
-  popup_html = $('<div id="popup" class="ol-popup map-popup">HELLO</div>');
-  $('#map').append(popup_html);
-  popup = new ol.Overlay({element: document.getElementById('popup')});
-  map.addOverlay(popup);
-
   map.on('click', function(evt) {
     feature = map.forEachFeatureAtPixel(evt.pixel,
       function(feature, layer) {
         return feature;
       });
-    element = popup.getElement();
-    if (feature) {
-      $(element).html('<a href="/notices/' + feature.getId() + '">' + feature.getProperties()['title'] + '</a>');
-      $(element).show();
-      centroid = ol.extent.getCenter(feature.getGeometry().getExtent());
-      pan = ol.animation.pan({duration: 200,source:(view.getCenter())});
-      popup.setPosition(centroid);
-      map.beforeRender(pan);
-      map.getView().setCenter(centroid);
 
-    } else {
-      $(element).hide();
+    if (feature) {
+      window.location.href = '/notices/' + feature.getId()
     }
   });
-
-  geocoder = new Geocoder('nominatim', {
-      provider: 'pelias',
-      key: 'mapzen-VoiExtQ',
-      lang: 'en-GB', //en-US, fr-FR
-      placeholder: 'Search for ...',
-      limit: 5,
-      keepOpen: false,
-      autoComplete: false,
-      autoCompleteMinLength: 5,
-      preventDefault: false
-    });
-    map.addControl(geocoder);
-
-    geocoder.on('addresschosen', function(evt){
-      map.getView().setCenter(evt.coordinate);
-    });
-
-    //move the geocoder search box out of the map
-    $('#q').replaceWith($('#gcd-input'));
-    $('#gcd-input').removeClass('ol3-geocoder-input-search');
-    $('#gcd-input').addClass('input-group-field');
-    $('.ol3-geocoder-search.ol-control').remove();
-    $('.ol3-geocoder-container').css('left', 0);
-    $('.ol3-geocoder-result').css('left', 0);
-    $('.ol3-geocoder-result').css('position', 'fixed');
-    $('.ol3-geocoder-result').css('top', 'auto');
-    $('.ol3-geocoder-result').css('bottom', $('#intro').css('height'));
-    $('.ol3-geocoder-result').css('width', $('.ol-viewport').css('width'));
-
-    // function onSearch (evt) {
-    //  hit = evt.key ? evt.key === 'Enter' :
-    //         evt.which ? evt.which === 13 :
-    //         evt.keyCode ? evt.keyCode === 13 : false;
-    //       if (hit) {
-    //         document.getElementById('gcd-input').blur();
-    //       }
-    // }
-
-    // document.getElementById('gcd-input').addEventListener('keyup', onSearch, false);
-
 
 
 });

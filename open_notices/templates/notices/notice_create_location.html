@@ -4,25 +4,29 @@
 {% load markdown_deux_tags %}
 
 {% block head %}
-  {{ form.media }}
-  <script type="text/javascript" src="{% static 'javascript/create-notice.js' %}"></script>
+  <script type="text/javascript" src="{% static 'javascript/map.js' %}"></script>
+  <script type="text/javascript" src="{% static 'javascript/notice-create-location.js' %}"></script>
 {% endblock %}
 
 {% block title %}
-  
+  Post a notice
 {% endblock %}
   
 {% block content %}
+  <div id="map-controls"></div>
+  <div id="map" class="map"></div>
   <div class="row column small-12">
-    <h1><small>(Step 2 of 3)</small> Location</h1>
-    <p>
-      Enter the location covered by the notice.
-    </p>
     <form action="" method="post">
-      {% csrf_token %}
-      {{ form.location }}
-      <div>
-        <button type="submit" class="button expanded">Next</button>
+      <div id="intro" class="column small-12">
+        <h1><small>(Step 2 of 3)</small> Location</h1>
+        <p>
+          Enter the location covered by the notice.
+        </p>
+        {% csrf_token %}
+        {{ form.location }}
+        <div>
+          <button type="submit" class="button expanded">Next</button>
+        </div>
       </div>
     </form>
   </div>

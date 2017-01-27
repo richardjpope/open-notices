@@ -5953,7 +5953,43 @@ label {
 
 .ol-control button, .ol-control button:hover {
   background-color: #2ecc71;
-  border-radius: 0%; }
+  border-radius: 0%;
+  font-weight: bold; }
+
+.ol-zoom {
+  top: 350px;
+  right: 2rem;
+  left: unset; }
+
+.ol-locate {
+  top: 400px;
+  right: 2rem;
+  left: unset; }
+
+.ol-geocoder .gcd-txt-container {
+  width: 98%; }
+.ol-geocoder .gcd-txt-control {
+  height: 3.5em; }
+.ol-geocoder .gcd-txt-input {
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem; }
+.ol-geocoder ul.gcd-txt-result {
+  width: 98%;
+  left: 1%;
+  top: 3.6em;
+  box-shadow: none;
+  border-radius: 0;
+  background-color: transparent; }
+  .ol-geocoder ul.gcd-txt-result li, .ol-geocoder ul.gcd-txt-result li:nth-child(odd) {
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+    margin-bottom: 0.5rem;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    background-color: #fefefe;
+    border: solid 1px #ecf0f1; }
+  .ol-geocoder ul.gcd-txt-result .gcd-country {
+    color: #2c3e50;
+    font-weight: normal; }
 
 .notice header {
   text-align: center;
