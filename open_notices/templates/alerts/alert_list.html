@@ -19,7 +19,7 @@
       <a href="{% url 'alert-create' %}" class="button">Create a new alert</a>
     </p>
     {% if object_list %}
-      <ul>
+      <ul class="alerts">
         {% for alert in object_list %}
             <li class="row">
               <div class="column small-12 medium-8" id="map-{{alert.id}}"></div>
@@ -29,6 +29,16 @@
                   <a href="{% url 'alert-delete' alert.id %}" class="button alert small expanded">
                 Delete this alert</a>
                 </p>
+                <aside class="data-links">
+                  <ul>
+                    <li><a href="{% url 'alert-detail-api' alert.id %}.json">JSON</a></li>
+                    <li><a href="{% url 'alert-detail-api' alert.id %}.geojson">GEOJSON</a></li>
+                    <li><a href="{% url 'alert-detail-api' alert.id %}.csv">CSV</a></li>
+                    <li><a href="{% url 'notice-list-api' %}.json?poly={{alert.location.json|urlencode}}">Notices as JSON</a></li>
+                    <li><a href="{% url 'notice-list-api' %}.geojson?poly={{alert.location.json|urlencode}}">Notices as GEOJSON</a></li>
+                    <li><a href="{% url 'notice-list-api' %}.csv?poly={{alert.location.json|urlencode}}">Notices as CSV</a></li>
+                  </ul>
+                </aside>
               </div>
             </li>
         {% endfor %}

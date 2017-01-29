@@ -73,7 +73,7 @@ class NoticeFilterMixin(object):
     def get_queryset(self):
         queryset = models.Notice.objects.all()
         tags = {}
-        special_parameters = ['page', 'bbox']
+        special_parameters = ['page', 'bbox', 'poly']
 
         #tags
         for k,v in self.request.GET.items():
@@ -90,6 +90,16 @@ class NoticeFilterMixin(object):
                 bbox_polygon = Polygon.from_bbox((p1x, p1y, p2x, p2y))
                 queryset = queryset.filter(location__bboverlaps=bbox_polygon)
             except ValueError:
+                queryset = models.Notice.objects.none()
+
+        #polygon
+        polygon_string = self.request.GET.get('poly', None)
+        if polygon_string:
+            try:
+                polygon_json = json.loads(polygon_string)
+                polygon = Polygon(polygon_json['coordinates'][0])
+                queryset = queryset.filter(location__overlaps=polygon)
+            except (KeyError, json.JSONDecodeError, TypeError):
                 queryset = models.Notice.objects.none()
 
         #return queryset

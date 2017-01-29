@@ -2464,6 +2464,9 @@ label {
     color: #2c3e50;
     font-weight: normal; }
 
+.alerts {
+  list-style-type: none; }
+
 .notice header {
   text-align: center;
   background-color: #2ecc71;
