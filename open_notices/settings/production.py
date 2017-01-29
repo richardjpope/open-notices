@@ -2,12 +2,16 @@ import dj_database_url
 from open_notices.settings.base import *
 
 DEBUG = os.environ.get('DEBUG', False)
-SECURE_SSL_REDIRECT = True
 SECRET_KEY = os.environ.get('SECRET_KEY', None)
 ALLOWED_HOSTS = []
 BROKER_URL = os.environ.get('BROKER_URL', None)
 CELERY_RESULT_BACKEND = os.environ.get('CELERY_RESULT_BACKEND', None)
 WIKI_URL = os.environ.get('WIKI_URL', None)
+
+SECURE_SSL_REDIRECT = True
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 INSTALLED_APPS += [
   "anymail",
