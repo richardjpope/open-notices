@@ -76,5 +76,9 @@ $(document).ready(function(){
     }
   });
 
+  //show alpha popup
+  popup = new Foundation.Reveal($('#alpha_popup'));
+  popup.open();
+
 
 });
