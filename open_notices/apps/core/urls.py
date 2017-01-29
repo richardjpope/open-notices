@@ -7,4 +7,5 @@ urlpatterns = [
   url(r'^about/?$', views.AboutView.as_view(), name='about'),
   url(r'^api/?$', views.APIView.as_view(), name='api'),
   url(r'^create-account/?$', views.RegistrationView.as_view(), name='register'),
+  url(r'.well-known/acme-challenge/(?P<token>.+)', views.acme_challenge),
 ]
