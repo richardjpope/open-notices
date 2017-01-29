@@ -2,6 +2,7 @@ import dj_database_url
 from open_notices.settings.base import *
 
 DEBUG = os.environ.get('DEBUG', False)
+SECURE_SSL_REDIRECT = True
 SECRET_KEY = os.environ.get('SECRET_KEY', None)
 ALLOWED_HOSTS = []
 BROKER_URL = os.environ.get('BROKER_URL', None)
