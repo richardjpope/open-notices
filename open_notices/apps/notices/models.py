@@ -17,6 +17,10 @@ def _get_timezones_as_tuple():
 
 
 class Notice(models.Model):
+
+    class Meta:
+        unique_together = (('title', 'user', 'description', 'location', 'starts_at', 'ends_at', 'tags', 'timezone'),)
+
     title = models.CharField(max_length=80)
     user = models.ForeignKey(settings.AUTH_USER_MODEL)
     description = models.TextField(blank=True, null=True)

@@ -19,7 +19,7 @@
     </header>
     <div id="map" class="map"></div>    
     <div class="row columns  medium-10 large-6">
-      <p>{{notice.details|markdown}}</p>
+      <p class="lead">{{notice.description|markdown}}</p>
       <table>
         {% for key, value in notice.tags.items %}
           <tr>

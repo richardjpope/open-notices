@@ -9,17 +9,23 @@ from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import FormView
 from django.core.serializers import serialize
+from django.core.exceptions import ValidationError as DjangoValidationError
 from rest_framework import generics 
-from rest_framework.serializers import ModelSerializer
+from rest_framework.serializers import ModelSerializer, ValidationError as RestValidationError
 from rest_framework.response import Response
 from rest_framework_gis.serializers import GeoFeatureModelSerializer
 from rest_framework_hstore.fields import HStoreField
 from rest_framework_gis.pagination import GeoJsonPagination
-from rest_framework.exceptions import MethodNotAllowed
+from rest_framework.exceptions import MethodNotAllowed, APIException
 from notices import models, forms
 from django.conf import settings
 from timezonefinder import TimezoneFinder
 from datetime import datetime
+
+class DuplicateValidationError(APIException):
+    status_code = 422
+    default_detail = 'Duplicate entry.'
+    default_code = 'Duplicate'
 
 class NoticeGeojsonSerializer(GeoFeatureModelSerializer):
     tags = HStoreField()
@@ -231,7 +237,10 @@ class NoticeCreateAPI(generics.CreateAPIView):
     serializer_class = NoticeSerializer
 
     def perform_create(self, serializer):
-        notice = serializer.save(user=self.request.user)
+        try:
+            notice = serializer.save(user=self.request.user)
+        except DjangoValidationError:
+            raise DuplicateValidationError('An identical notice already exists', 422)
 
     def post(self, request, format='json', *args, **kwargs):
         #Only JSON accepted for edit/create/delete

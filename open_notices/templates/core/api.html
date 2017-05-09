@@ -10,7 +10,7 @@
     {% if user.is_authenticated %}
       <h2>API Key</h2>
       
-      <form action="." method="post">
+      <form action="" method="post">
         {% csrf_token %}
         {% if token %}
           <code>{{token}}</code>

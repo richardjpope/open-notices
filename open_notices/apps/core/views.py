@@ -10,7 +10,6 @@ from core import forms
 from django.utils.http import is_safe_url
 from django.contrib.auth import authenticate, login
 
-
 #Lets Encrypt refresh via sabayon
 def acme_challenge(request, token):
     def find_key(token):
